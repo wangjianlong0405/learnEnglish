@@ -1,0 +1,33 @@
+export const unitQuestions = [
+  { type: "词汇搭配", question: "选择最自然的搭配：", options: ["make a decision", "do a decision", "build a decision", "take a decisioning"], answer: 0, note: "make a decision 是固定搭配。" },
+  { type: "词汇搭配", question: "哪个搭配最自然？", options: ["do a mistake", "make a mistake", "build a mistake", "create mistake"], answer: 1, note: "犯错通常说 make a mistake。" },
+  { type: "词汇搭配", question: "“取得进步”更自然的是：", options: ["do progress", "make progress", "build a progress", "take progressing"], answer: 1, note: "make progress 是常见搭配。" },
+  { type: "时态", question: "I ___ this book twice, so I know the story well.", options: ["read", "have read", "am reading", "had read yesterday"], answer: 1, note: "未说明具体过去时间的人生经历使用现在完成时。" },
+  { type: "时态", question: "While I ___ dinner, the phone rang.", options: ["cook", "was cooking", "have cooked", "am cook"], answer: 1, note: "过去进行时描述电话响起时正在进行的动作。" },
+  { type: "时态", question: "By next month, she ___ here for a year.", options: ["works", "will have worked", "is working", "worked"], answer: 1, note: "到将来某时为止已完成的动作，用将来完成时。" },
+  { type: "语音", question: "哪个单词的第一音节重读？", options: ["reLAX", "beGIN", "TAble", "aRRIVE"], answer: 2, note: "table 的重音在第一音节：/ˈteɪbəl/。" },
+  { type: "语音", question: "photograph 与 photography 的重音变化说明：", options: ["词性变化不影响重音", "派生后重音可能移动", "所有多音节词重音都在词首", "重音只出现在动词中"], answer: 1, note: "英语派生词常出现重音转移，如 PHOtograph → phoTOGraphy。" },
+  { type: "情景表达", question: "礼貌请求对方重复，应说：", options: ["Say again now.", "Could you say that again, please?", "You are wrong.", "Repeat is needed."], answer: 1, note: "Could you...? 加 please 是自然礼貌的请求。" },
+  { type: "情景表达", question: "开会时想礼貌插话，较合适的是：", options: ["Stop. Listen to me.", "Sorry to interrupt, may I add something?", "You must hear me now.", "I talk first always."], answer: 1, note: "Sorry to interrupt... 是职场中常见的礼貌插话方式。" },
+  { type: "情景表达", question: "想确认截止日期，较自然的是：", options: ["Deadline when?", "Just to confirm, is the deadline Friday?", "You tell deadline now!", "Deadline is ask."], answer: 1, note: "Just to confirm... 是礼貌确认信息的常用说法。" },
+  { type: "条件句", question: "If she had left earlier, she ___ the train.", options: ["would catch", "would have caught", "caught", "will catch"], answer: 1, note: "对过去事实的假设使用 would have + 过去分词。" },
+  { type: "条件句", question: "If it rains tomorrow, we ___ indoors.", options: ["will stay", "would stayed", "staying", "have stay"], answer: 0, note: "真实条件句：If + 现在时，主句常用 will。" },
+  { type: "阅读推断", question: "“The plan is practical, although its cost remains a concern.” 表明作者：", options: ["完全反对计划", "认为计划可行但担心成本", "不知道计划内容", "只关注时间"], answer: 1, note: "although 引出与主要判断并存的保留意见。" },
+  { type: "从句", question: "The person ___ helped me was very patient.", options: ["which", "who", "where", "whose book"], answer: 1, note: "先行词是 person，并在从句中作主语，使用 who。" },
+  { type: "语篇连接", question: "The data was limited. ___, the team avoided making a final claim.", options: ["For example", "As a result", "Meanwhile person", "In addition to"], answer: 1, note: "后句是前句的结果，使用 As a result。" },
+];
+
+export const quiz = [
+  { type: "选择最自然的表达", question: "第一次见面时，你会怎么说？", options: ["Nice to meet you.", "Nice meeting yesterday.", "Good to see yesterday.", "Meet you nice."], answer: 0, success: "很好！这是初次见面最自然的表达。" },
+  { type: "补全句子", question: "Let me ___ myself. I’m Alex.", options: ["talk", "introduce", "say", "meet"], answer: 1, success: "正确！introduce myself 表示“自我介绍”。" },
+  { type: "理解含义", question: "“How’s it going?” 最接近下面哪句话？", options: ["你要去哪里？", "事情进行了吗？", "最近怎么样？", "你怎么走？"], answer: 2, success: "答对了！它是很常见的非正式问候。" },
+  { type: "情景应答", question: "别人说 “It’s a pleasure to meet you.”，你可以回答：", options: ["I’m pleasure.", "The pleasure is mine.", "Meet is good.", "You are welcome."], answer: 1, success: "非常棒！The pleasure is mine 表示“我也很荣幸”。" },
+  { type: "选择最自然的表达", question: "想约朋友喝咖啡，较自然的是：", options: ["You come coffee now.", "Would you like to grab a coffee later?", "Coffee is order.", "I command coffee meeting."], answer: 1, success: "Would you like to... 是礼貌又自然的邀请。" },
+  { type: "补全句子", question: "Could you ___ me the way to the library?", options: ["say", "tell", "speak", "talk"], answer: 1, success: "tell someone the way 表示给某人指路。" },
+  { type: "理解含义", question: "“I’m tied up this afternoon.” 最接近：", options: ["我下午被绳子绑住了", "我下午很忙，抽不开身", "我下午要去运动", "我下午已经出发了"], answer: 1, success: "tied up 在口语里常表示忙得脱不开身。" },
+  { type: "情景应答", question: "服务员问 “Anything else?”，你可以回答：", options: ["No, that’s all. Thanks.", "Yes, I am else.", "Anything is good bye.", "Else please stop."], answer: 0, success: "No, that’s all. 是结束点单时的常用回应。" },
+  { type: "选择最自然的表达", question: "想请老师解释一遍，较合适的是：", options: ["Explain again now.", "Could you explain that once more, please?", "You must say.", "Say me again."], answer: 1, success: "Could you... please? 是课堂里礼貌提问的常用句式。" },
+  { type: "补全句子", question: "I usually ___ vocabulary before breakfast.", options: ["review", "reviews", "reviewing", "reviewed always"], answer: 0, success: "主语是 I，一般现在时用 review。" },
+  { type: "理解含义", question: "“Let’s keep it short.” 最接近：", options: ["我们把它留着", "我们说简短一点", "我们马上离开", "我们再写长一点"], answer: 1, success: "keep it short 表示尽量简短。" },
+  { type: "情景应答", question: "同事说 “Thanks for your help.”，你可以回答：", options: ["You’re welcome.", "I am thanks.", "Help is you.", "No your welcome."], answer: 0, success: "You’re welcome. 是最自然的回应。" },
+];

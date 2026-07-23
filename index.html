@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Lingua 提供分龄英语课程、词汇、音标、语法、水平测试和互动练习，帮助不同年龄的学习者建立可持续的学习习惯。"
+    />
+    <meta name="theme-color" content="#183c39" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content="Lingua — 每天进步一点点" />
+    <meta property="og:description" content="适合少儿、青少年、高中生和成人的分龄英语学习网站。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="Lingua 英语学习" />
+    <meta name="twitter:card" content="summary" />
+    <title>Lingua — 每天进步一点点</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <noscript><div class="noscript-banner">Lingua 的互动课程需要启用 JavaScript。启用后即可使用水平测试、录音、测评和学习进度。</div></noscript>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <a class="brand" href="#home" data-view-link="home" aria-label="Lingua 首页">
+          <span class="brand-mark">L</span>
+          <span>lingua</span>
+        </a>
+
+        <nav class="main-nav">
+          <button class="nav-item is-active" type="button" data-view="home">
+            <span class="nav-icon">⌂</span><span>学习首页</span>
+          </button>
+          <button class="nav-item" type="button" data-view="lessons">
+            <span class="nav-icon">▤</span><span>学习路径</span>
+          </button>
+          <button class="nav-item" type="button" data-view="learning">
+            <span class="nav-icon">◎</span><span>标准课堂</span>
+          </button>
+          <button class="nav-item" type="button" data-view="words">
+            <span class="nav-icon">A</span><span>词汇复习</span>
+          </button>
+          <button class="nav-item" type="button" data-view="grammar">
+            <span class="nav-icon">G</span><span>语法目录</span>
+          </button>
+          <button class="nav-item" type="button" data-view="skills">
+            <span class="nav-icon">◉</span><span>能力训练</span>
+          </button>
+          <button class="nav-item" type="button" data-view="practice">
+            <span class="nav-icon">✓</span><span>综合测评</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-card">
+          <div class="sidebar-card-art" aria-hidden="true">✦</div>
+          <strong>坚持就是超能力</strong>
+          <p>每天 15 分钟，12 周后就能感受到明显变化。</p>
+          <div class="mini-progress" role="progressbar" aria-label="本周学习目标" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"><span id="sidebar-progress-bar" style="width: 0%"></span></div>
+          <small id="sidebar-progress-label">本周完成 0 / 8 项</small>
+        </div>
+
+        <div class="profile-chip">
+          <span class="avatar">W</span>
+          <span><strong>学习者</strong><small class="profile-level">等级未测评</small></span>
+          <button type="button" data-start-assessment aria-label="开始英语水平测试">测</button>
+        </div>
+      </aside>
+
+      <main class="main-content" id="main-content">
+        <header class="mobile-header">
+          <a class="brand" href="#home" data-view-link="home"><span class="brand-mark">L</span><span>lingua</span></a>
+          <button class="menu-button" type="button" aria-label="打开导航" aria-expanded="false">☰</button>
+        </header>
+
+        <section class="view is-active" id="home" data-page="home">
+          <div class="topbar">
+            <div>
+              <p class="eyebrow" id="current-date">TODAY</p>
+              <h1 id="greeting-title">你好，准备开始吗？</h1>
+            </div>
+            <div class="top-actions">
+              <button class="assessment-link" type="button" data-start-assessment>测测英语水平</button>
+              <div class="streak-pill" title="连续学习天数"><span>🔥</span><strong id="streak-count">1</strong> 天连续学习</div>
+            </div>
+          </div>
+
+          <section class="hero-card">
+            <div class="hero-copy">
+              <span class="lesson-label" id="hero-lesson-label">今日课程 · 12 分钟</span>
+              <h2 id="hero-module-title">Confidence starts<br />with a simple <em>hello.</em></h2>
+              <p id="hero-description">学习自然开启一段英文对话，并在真实场景中自信表达自己。</p>
+              <button class="primary-button" type="button" data-start-lesson>
+                继续学习 <span>→</span>
+              </button>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+              <div class="sun-shape"></div>
+              <div class="speech-bubble bubble-one">Hi there!</div>
+              <div class="speech-bubble bubble-two">Nice to meet you.</div>
+              <div class="character">
+                <span class="character-hair"></span>
+                <span class="character-face"></span>
+                <span class="character-body"></span>
+                <span class="character-arm"></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="personal-path-card">
+            <div>
+              <span class="section-number">MY PATH</span>
+              <h2 id="personal-path-title">完成水平测试，生成你的学习路径</h2>
+              <p id="personal-path-description">系统会结合年龄阶段、英语等级和学习进度，推荐接下来最值得学习的内容。</p>
+            </div>
+            <div class="path-steps" id="personal-path-steps"></div>
+            <button class="secondary-button" type="button" id="personal-path-action" data-start-assessment>开始水平测试</button>
+          </section>
+
+          <section class="age-preview">
+            <div class="age-preview-copy">
+              <span class="section-number">NEW</span>
+              <h2>每个年龄，都有适合的学习方式</h2>
+              <p>从趣味启蒙到职场表达，选择你的阶段，学习词汇、音标和语法。</p>
+            </div>
+            <div class="age-preview-actions">
+              <button type="button" data-open-age="kids"><strong>6–9</strong><span>少儿启蒙</span></button>
+              <button type="button" data-open-age="teens"><strong>10–14</strong><span>青少年</span></button>
+              <button type="button" data-open-age="exam"><strong>15–18</strong><span>高中备考</span></button>
+              <button type="button" data-open-age="adults"><strong>18+</strong><span>成人英语</span></button>
+            </div>
+          </section>
+
+          <div class="section-heading">
+            <div><span class="section-number">01</span><h2>今日学习计划</h2></div>
+            <span class="muted" id="daily-plan-duration">约 25 分钟</span>
+          </div>
+
+          <div class="daily-grid">
+            <article class="task-card peach-card">
+              <div class="task-icon">▶</div>
+              <span class="task-meta" id="task-lesson-meta">课程 · 12 分钟</span>
+              <h3 id="task-lesson-title">打招呼与自我介绍</h3>
+              <p id="task-lesson-desc">6 个短小、有节奏的学习环节</p>
+              <div class="card-bottom">
+                <div class="progress-line"><span id="lesson-task-progress" style="width: 0%"></span></div>
+                <button type="button" data-start-lesson aria-label="继续课程">→</button>
+              </div>
+            </article>
+            <article class="task-card blue-card">
+              <div class="task-icon">Aa</div>
+              <span class="task-meta" id="task-word-meta">词汇 · 8 分钟</span>
+              <h3 id="task-word-title">日常问候</h3>
+              <p id="task-word-desc">复习高频表达</p>
+              <div class="card-bottom">
+                <div class="progress-line"><span id="word-task-progress" style="width: 0%"></span></div>
+                <button type="button" data-go-words aria-label="开始词汇练习">→</button>
+              </div>
+            </article>
+            <article class="task-card cream-card">
+              <div class="task-icon">◉</div>
+              <span class="task-meta" id="task-quiz-meta">综合练习 · 5 分钟</span>
+              <h3 id="task-quiz-title">问候表达小测</h3>
+              <p id="task-quiz-desc">检查今天的学习效果</p>
+              <div class="card-bottom">
+                <div class="progress-line"><span id="quiz-task-progress" style="width: 0%"></span></div>
+                <button type="button" data-go-practice aria-label="开始综合练习">→</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="lower-grid">
+            <section class="weekly-card">
+              <div class="section-heading compact">
+                <div><span class="section-number">02</span><h2>本周节奏</h2></div>
+                <span class="level-badge" id="home-level">尚未测评</span>
+              </div>
+              <div class="week-row" id="week-row"></div>
+            </section>
+            <section class="phrase-card">
+              <div class="phrase-top"><span>每日一句</span><button type="button" id="speak-phrase" aria-label="播放每日一句">◖))</button></div>
+              <blockquote>“Small steps every day lead to big changes.”</blockquote>
+              <p>每天迈出一小步，终将带来巨大的改变。</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="assessment" data-page="assessment">
+          <div class="page-intro assessment-intro">
+            <div>
+              <p class="eyebrow">QUICK PLACEMENT CHECK</p>
+              <h1>英语水平快速测试</h1>
+              <p id="assessment-intro-text">由易到难的题目，帮助你选择更合适的起点。结果仅用于学习推荐，不替代正式语言考试。</p>
+            </div>
+            <button class="secondary-button" type="button" data-close-assessment>返回首页</button>
+          </div>
+          <div class="assessment-shell">
+            <div class="assessment-progress" aria-hidden="true"><span id="assessment-progress-bar"></span></div>
+            <div class="assessment-meta"><span id="assessment-position">问题 1 / 6</span><span id="assessment-duration">约 3 分钟</span></div>
+            <div id="assessment-content" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="view" id="learning" data-page="learning">
+          <div class="page-intro learning-intro">
+            <div>
+              <p class="eyebrow">LEARNING FOR EVERY AGE</p>
+              <h1>找到适合你的学习方式</h1>
+              <p>内容按认知阶段、真实使用场景和语言能力设计，每次专注掌握一个知识点。</p>
+            </div>
+            <div class="reference-note">
+              <span>✦</span>
+              <p>参考成熟英语平台的分龄、分级与短课模式设计</p>
+            </div>
+          </div>
+
+          <div class="age-tabs" role="tablist" aria-label="选择年龄阶段">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-age="kids"><span>🪁</span><strong>少儿启蒙</strong><small>6–9 岁</small></button>
+            <button type="button" role="tab" aria-selected="false" data-age="teens"><span>🎒</span><strong>青少年</strong><small>10–14 岁</small></button>
+            <button type="button" role="tab" aria-selected="false" data-age="exam"><span>📚</span><strong>高中备考</strong><small>15–18 岁</small></button>
+            <button type="button" role="tab" aria-selected="false" data-age="adults"><span>☕</span><strong>成人英语</strong><small>18 岁以上</small></button>
+          </div>
+
+          <div class="learning-toolbar">
+            <div>
+              <span class="toolbar-label">学习内容</span>
+              <div class="topic-filters" role="group" aria-label="筛选学习内容">
+                <button class="is-active" type="button" data-topic="all">全部</button>
+                <button type="button" data-topic="vocabulary">词汇</button>
+                <button type="button" data-topic="phonetics">音标</button>
+                <button type="button" data-topic="grammar">语法</button>
+              </div>
+            </div>
+            <div class="stage-level" id="stage-level">Pre-A1 · 趣味启蒙</div>
+          </div>
+
+          <div class="stage-overview" id="stage-overview"></div>
+          <div class="learning-modules" id="learning-modules"></div>
+          <section class="lesson-preview" id="lesson-preview" aria-live="polite"></section>
+        </section>
+
+        <section class="view" id="lessons" data-page="lessons">
+          <div class="page-intro">
+            <p class="eyebrow">CEFR CURRICULUM MAP</p>
+            <h1>课程知识地图</h1>
+            <p>从语言知识到听说读写能力，查看每个等级需要达到的学习标准和推荐顺序。</p>
+          </div>
+          <div class="level-tabs" role="tablist" aria-label="课程等级">
+            <button type="button" role="tab" aria-selected="false" data-level="Pre-A1">Pre-A1 启蒙</button>
+            <button type="button" role="tab" aria-selected="false" data-level="A1">A1 入门</button>
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-level="A2">A2 基础</button>
+            <button type="button" role="tab" aria-selected="false" data-level="B1">B1 进阶</button>
+            <button type="button" role="tab" aria-selected="false" data-level="B2">B2 中高级</button>
+          </div>
+          <p class="curriculum-note">词汇量为 Lingua 内部课程目标范围，并非 CEFR 官方规定。</p>
+          <section class="standard-grid" id="standard-grid" aria-label="等级能力标准"></section>
+          <section class="knowledge-map" id="knowledge-map" aria-label="课程知识地图"></section>
+          <div class="section-heading curriculum-heading"><div><span class="section-number">NEXT</span><h2>推荐主题课程</h2></div></div>
+          <div class="course-list" id="course-list"></div>
+        </section>
+
+        <section class="view" id="words" data-page="words">
+          <div class="page-intro split-intro">
+            <div>
+              <p class="eyebrow">SMART REVIEW</p>
+              <h1>单词卡片</h1>
+              <p>先回想，再翻面。主动记忆比重复阅读更有效。</p>
+            </div>
+            <div class="word-stats"><strong id="words-learned">0</strong><span>今日已复习</span></div>
+          </div>
+          <div class="word-review-summary">
+            <span><strong id="words-due">6</strong><small>当前待复习</small></span>
+            <span><strong id="word-retention">0%</strong><small>已进入长期记忆</small></span>
+            <p id="next-word-review">根据你的回答自动安排下一次复习。</p>
+          </div>
+          <div class="flashcard-layout">
+            <div class="flashcard-wrap">
+              <button class="flashcard" id="flashcard" type="button" aria-label="点击翻转单词卡片" aria-pressed="false">
+                <span class="card-face card-front" aria-hidden="false">
+                  <small>WORD <b id="word-position">1 / 6</b></small>
+                  <strong id="word-text">greeting</strong>
+                  <span id="word-phonetic">/ˈɡriːtɪŋ/</span>
+                  <em>点击查看释义</em>
+                </span>
+                <span class="card-face card-back" aria-hidden="true">
+                  <small>MEANING</small>
+                  <strong id="word-meaning">问候；招呼</strong>
+                  <p id="word-example">She smiled and offered a friendly greeting.</p>
+                  <span id="word-translation">她微笑着，友好地打了个招呼。</span>
+                </span>
+              </button>
+              <div class="flash-actions">
+                <button class="secondary-button" id="review-word" type="button">再看看</button>
+                <button class="sound-button" id="speak-word" type="button" aria-label="播放单词发音">◖))</button>
+                <button class="primary-button compact-button" id="know-word" type="button">记住了 ✓</button>
+              </div>
+            </div>
+            <aside class="study-tip">
+              <span class="tip-icon">✦</span>
+              <h2>记忆小技巧</h2>
+              <p>不要只记中文意思。把单词放进完整句子里，回忆会更牢固。</p>
+              <div class="tip-example">
+                <small>试着大声说</small>
+                <strong>“A warm greeting can make someone’s day.”</strong>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="grammar" data-page="grammar">
+          <div class="page-intro split-intro">
+            <div>
+              <p class="eyebrow">GRAMMAR MAP</p>
+              <h1>语法目录</h1>
+              <p>按时态、从句和句型系统浏览。先看规则，再完成专项练习。</p>
+            </div>
+            <div class="word-stats"><strong id="grammar-done-count">0</strong><span>/ <span id="grammar-total-count">0</span> 专题已完成</span></div>
+          </div>
+          <div class="grammar-categories" role="tablist" aria-label="语法分类">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-grammar-category="all">全部</button>
+            <button type="button" role="tab" aria-selected="false" data-grammar-category="basics">基础句型</button>
+            <button type="button" role="tab" aria-selected="false" data-grammar-category="tenses">时态</button>
+            <button type="button" role="tab" aria-selected="false" data-grammar-category="modals">情态与语态</button>
+            <button type="button" role="tab" aria-selected="false" data-grammar-category="clauses">从句与非谓语</button>
+          </div>
+          <div class="grammar-topic-list" id="grammar-topic-list"></div>
+          <section class="grammar-practice" id="grammar-practice" aria-live="polite"></section>
+        </section>
+
+        <section class="view" id="skills" data-page="skills">
+          <div class="page-intro">
+            <p class="eyebrow">LISTEN · SPEAK · READ · WRITE</p>
+            <h1>英语能力训练</h1>
+            <p>把词汇和语法放入真实输入与输出任务中，逐步形成可以使用的英语能力。</p>
+          </div>
+          <div class="skill-tabs" role="tablist" aria-label="选择训练技能">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-skill="listening">🎧 听力</button>
+            <button type="button" role="tab" aria-selected="false" data-skill="speaking">🎙️ 口语</button>
+            <button type="button" role="tab" aria-selected="false" data-skill="reading">📖 阅读</button>
+            <button type="button" role="tab" aria-selected="false" data-skill="writing">✍️ 写作</button>
+          </div>
+          <div class="skill-panel is-active" data-skill-panel="listening" id="listening-panel"></div>
+          <div class="skill-panel" data-skill-panel="speaking" id="speaking-panel"></div>
+          <div class="skill-panel" data-skill-panel="reading" id="reading-panel"></div>
+          <div class="skill-panel" data-skill-panel="writing" id="writing-panel"></div>
+        </section>
+
+        <section class="view" id="practice" data-page="practice">
+          <div class="page-intro">
+            <p class="eyebrow">ASSESS · REVIEW · IMPROVE</p>
+            <h1>综合测评与复习</h1>
+            <p>完成日常练习和单元测试，错误内容会自动进入间隔复习计划。</p>
+          </div>
+          <div class="practice-tabs" role="tablist" aria-label="选择测评模式">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-practice-mode="daily">每日小测</button>
+            <button type="button" role="tab" aria-selected="false" data-practice-mode="unit">综合单元测试</button>
+            <button type="button" role="tab" aria-selected="false" data-practice-mode="review">错题本 <span id="mistake-count-badge">0</span></button>
+          </div>
+          <section class="practice-panel is-active" data-practice-panel="daily">
+            <div class="quiz-shell">
+              <div class="quiz-progress"><span id="quiz-progress-bar"></span></div>
+              <div class="quiz-meta"><span id="quiz-position">问题 1 / 4</span><span>+10 XP</span></div>
+              <div id="quiz-content"></div>
+            </div>
+          </section>
+          <section class="practice-panel" data-practice-panel="unit">
+            <div class="quiz-shell unit-test-shell">
+              <div class="quiz-progress"><span id="unit-progress-bar"></span></div>
+              <div class="quiz-meta"><span id="unit-position">问题 1 / 8</span><span>词汇 · 语法 · 阅读</span></div>
+              <div id="unit-content"></div>
+            </div>
+          </section>
+          <section class="practice-panel" data-practice-panel="review">
+            <div class="review-center" id="review-center"></div>
+          </section>
+        </section>
+
+        <footer class="site-footer">
+          <span>© <span id="copyright-year">2026</span> Lingua</span>
+          <span>学习记录仅保存在你的浏览器中，不会上传个人信息。</span>
+          <div class="backup-actions">
+            <button class="secondary-button" type="button" data-export-progress>导出进度</button>
+            <label class="backup-import secondary-button">导入进度<input type="file" accept="application/json,.json" data-import-progress hidden /></label>
+          </div>
+          <details class="privacy-details">
+            <summary>隐私说明</summary>
+            <p>本站当前版本不要求注册、不使用广告追踪，也不会将学习数据发送到服务器。口语录音仅在当前页面生成并播放，不会上传或长期保存。你可以使用页脚的导出/导入备份进度。清除浏览器网站数据会同时删除本地学习进度。支持安装为应用并在缓存后离线打开已访问页面。</p>
+          </details>
+        </footer>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
