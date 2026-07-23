@@ -47,7 +47,8 @@ const requiredFiles = [
   "favicon.svg",
   "site.webmanifest",
   "robots.txt",
-  "server.mjs",
+  "scripts/dev-server.mjs",
+  "scripts/stage-static.mjs",
   "_headers",
   "vercel.json",
   "playwright.config.js",
@@ -65,7 +66,7 @@ const [html, css, app, manifestText, server, headers, vercelText, swSource, ...m
   readFile("styles.css", "utf8"),
   readFile("app.js", "utf8"),
   readFile("site.webmanifest", "utf8"),
-  readFile("server.mjs", "utf8"),
+  readFile("scripts/dev-server.mjs", "utf8"),
   readFile("_headers", "utf8"),
   readFile("vercel.json", "utf8"),
   readFile("sw.js", "utf8"),
@@ -196,6 +197,9 @@ if (!vercelText.includes("/sw.js") || !vercelText.includes("no-cache")) {
 }
 
 JSON.parse(vercelText);
+if (!vercelText.includes("@vercel/static-build") || !vercelText.includes("public")) {
+  throw new Error("Vercel must deploy public/ via @vercel/static-build");
+}
 
 if (!swSource.includes("caches.open") || !appSource.includes("serviceWorker.register") || !app.includes("registerServiceWorker")) {
   throw new Error("PWA service worker registration is incomplete");

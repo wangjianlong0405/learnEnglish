@@ -4,4 +4,4 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 .ai-tracker/
-.DS_Store
+public/

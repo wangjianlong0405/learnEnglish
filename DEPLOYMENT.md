@@ -30,7 +30,7 @@ npm run dev
 - Node.js：20 或更高版本
 - 404 页面：`404.html`（按平台映射）
 
-Netlify 会自动读取项目根目录的 `_headers` 安全响应头配置。Vercel 使用根目录的 `vercel.json`（已与 `_headers` / 本地 `server.mjs` 对齐）。其他平台请在配置中加入相同的 CSP、Permissions-Policy、Referrer-Policy 和 X-Content-Type-Options 响应头，并保留 `media-src 'self' blob:`、`microphone=(self)` 与 `worker-src 'self'`。
+Netlify 会自动读取项目根目录的 `_headers` 安全响应头配置。Vercel 使用根目录的 `vercel.json`（已与 `_headers` / 本地 `scripts/dev-server.mjs` 对齐）。其他平台请在配置中加入相同的 CSP、Permissions-Policy、Referrer-Policy 和 X-Content-Type-Options 响应头，并保留 `media-src 'self' blob:`、`microphone=(self)` 与 `worker-src 'self'`。
 
 ### Vercel（推荐与 GitHub 联动）
 
@@ -44,7 +44,7 @@ Netlify 会自动读取项目根目录的 `_headers` 安全响应头配置。Ver
 6. 部署完成后访问分配的 `*.vercel.app` 域名；应用使用 hash 路由（如 `/#words`），入口始终为 `/`。
 7. 绑定自定义域名后，更新 `sitemap.xml` 中的站点 URL。
 
-说明：生产环境不运行 `server.mjs`；HTTPS、安全头与 `sw.js` 的 `Cache-Control: no-cache` 由 Vercel + `vercel.json` 提供。
+说明：生产环境不运行开发服务器（`scripts/dev-server.mjs`）；Vercel 通过 `vercel-build` 将静态资源写入 `public/` 并由 CDN 托管。请在 Vercel 项目设置中 **不要** 填写 Start Command（留空），Framework 选 **Other**。
 
 ## 正式域名上线后
 
