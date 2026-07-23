@@ -49,6 +49,7 @@ const requiredFiles = [
   "robots.txt",
   "server.mjs",
   "_headers",
+  "vercel.json",
   "playwright.config.js",
   "e2e/smoke.spec.js",
   "e2e/mistakes.spec.js",
@@ -59,13 +60,14 @@ const requiredFiles = [
 
 for (const file of requiredFiles) await access(file);
 
-const [html, css, app, manifestText, server, headers, swSource, ...moduleSources] = await Promise.all([
+const [html, css, app, manifestText, server, headers, vercelText, swSource, ...moduleSources] = await Promise.all([
   readFile("index.html", "utf8"),
   readFile("styles.css", "utf8"),
   readFile("app.js", "utf8"),
   readFile("site.webmanifest", "utf8"),
   readFile("server.mjs", "utf8"),
   readFile("_headers", "utf8"),
+  readFile("vercel.json", "utf8"),
   readFile("sw.js", "utf8"),
   ...appModules.map((file) => readFile(file, "utf8")),
 ]);
@@ -180,12 +182,20 @@ if (!appSource.includes("SRS_FAIL_RETRY_MS = 5 * 60 * 1000")) {
 }
 
 for (const policy of ["media-src 'self' blob:", "microphone=(self)", "worker-src 'self'"]) {
-  if (!server.includes(policy) || !headers.includes(policy)) throw new Error(`Security policy is missing: ${policy}`);
+  if (!server.includes(policy) || !headers.includes(policy) || !vercelText.includes(policy)) {
+    throw new Error(`Security policy is missing: ${policy}`);
+  }
 }
 
 if (!headers.includes("/sw.js") || !headers.includes("Cache-Control: no-cache")) {
-  throw new Error("Service worker cache headers are missing");
+  throw new Error("Service worker cache headers are missing in _headers");
 }
+
+if (!vercelText.includes("/sw.js") || !vercelText.includes("no-cache")) {
+  throw new Error("Service worker cache headers are missing in vercel.json");
+}
+
+JSON.parse(vercelText);
 
 if (!swSource.includes("caches.open") || !appSource.includes("serviceWorker.register") || !app.includes("registerServiceWorker")) {
   throw new Error("PWA service worker registration is incomplete");

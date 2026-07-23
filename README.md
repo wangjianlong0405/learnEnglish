@@ -37,6 +37,7 @@ npm run dev
 - `sw.js`：Service Worker，缓存静态资源以支持离线打开；新版本可用时提示刷新
 - `data/`：课程、测评与练习内容数据
 - `e2e/`：Playwright 冒烟与错题流程测试
+- `vercel.json`：Vercel 构建命令与安全响应头（与 `_headers` 一致）
 
 页脚可导出 / 导入本地学习进度 JSON，方便换设备备份（仍不上传服务器）。
 

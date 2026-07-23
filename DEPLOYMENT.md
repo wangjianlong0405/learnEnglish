@@ -30,7 +30,21 @@ npm run dev
 - Node.js：20 或更高版本
 - 404 页面：`404.html`（按平台映射）
 
-Netlify 会自动读取项目根目录的 `_headers` 安全响应头配置。使用其他平台时，请在平台配置中加入相同的 CSP、Permissions-Policy、Referrer-Policy 和 X-Content-Type-Options 响应头，并保留 `media-src 'self' blob:`、`microphone=(self)` 与 `worker-src 'self'`。
+Netlify 会自动读取项目根目录的 `_headers` 安全响应头配置。Vercel 使用根目录的 `vercel.json`（已与 `_headers` / 本地 `server.mjs` 对齐）。其他平台请在配置中加入相同的 CSP、Permissions-Policy、Referrer-Policy 和 X-Content-Type-Options 响应头，并保留 `media-src 'self' blob:`、`microphone=(self)` 与 `worker-src 'self'`。
+
+### Vercel（推荐与 GitHub 联动）
+
+1. 在 [Vercel Dashboard](https://vercel.com/new) 导入仓库 [wangjianlong0405/learnEnglish](https://github.com/wangjianlong0405/learnEnglish)。
+2. **Framework Preset**：Other（或不选框架）。
+3. **Root Directory**：`.`（默认即可）。
+4. 构建与安装由仓库内 `vercel.json` 指定：
+   - Install：`npm ci`
+   - Build：`npm run check`（静态门禁，无打包产物）
+5. **Output**：静态文件来自仓库根目录，无需额外 Output Directory。
+6. 部署完成后访问分配的 `*.vercel.app` 域名；应用使用 hash 路由（如 `/#words`），入口始终为 `/`。
+7. 绑定自定义域名后，更新 `sitemap.xml` 中的站点 URL。
+
+说明：生产环境不运行 `server.mjs`；HTTPS、安全头与 `sw.js` 的 `Cache-Control: no-cache` 由 Vercel + `vercel.json` 提供。
 
 ## 正式域名上线后
 
