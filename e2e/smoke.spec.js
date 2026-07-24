@@ -24,6 +24,16 @@ test.describe("Lingua smoke", () => {
     await expect(page.locator("#phonetic-detail .phonetic-symbol")).toBeVisible();
   });
 
+  test("placement assessment provides listen controls", async ({ page }) => {
+    await page.goto("/");
+    await page.locator('[data-start-assessment]').first().click();
+    await expect(page.locator("#assessment.is-active")).toBeVisible();
+    await expect(page.locator("[data-speak-assessment-question]")).toBeVisible();
+    await expect(page.locator("[data-assessment-voice-auto]")).toBeChecked();
+    await expect(page.locator(".assessment-title .voice-chip")).toBeVisible();
+    await expect(page.locator(`[data-quiz-placement-answer]`)).toHaveCount(4);
+  });
+
   test("course pack saves and restores its output draft", async ({ page }) => {
     const draft = "Hi, I am Alex. I like reading.";
     await page.goto("/#lessons");
@@ -79,10 +89,10 @@ test.describe("Lingua smoke", () => {
   });
 
   test("preschool track can be completed by listening and tapping pictures", async ({ page }) => {
-    await page.goto("/#learning");
-    await page.locator('[data-age="preschool"]').click();
-
-    await expect(page.locator("#preschool-course-path")).toBeVisible();
+    await page.goto("/");
+    await page.locator('[data-open-age="preschool"]').click();
+    await expect(page.locator("#learning.is-active")).toBeVisible({ timeout: 1500 });
+    await expect(page.locator("#preschool-course-path")).toBeVisible({ timeout: 1500 });
     await expect(page.locator(".preschool-unit-card")).toHaveCount(15);
     await expect(page.locator(".learning-toolbar")).toBeHidden();
 

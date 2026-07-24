@@ -78,12 +78,11 @@ export function speakHomePlan() {
 export function speakAndGoLearning() {
   stopSpeaking();
   const destination = state.selectedAge === "preschool" ? "幼儿听音课堂" : "少儿课堂";
+  showView("learning");
   return speakSequence([
     zh(`好的，我们去${destination}。`),
     zh(state.selectedAge === "preschool" ? "点一张大图片，就可以开始。" : "点橙色喇叭，就能听到中文说明。"),
-  ]).then(() => {
-    showView("learning");
-  });
+  ]);
 }
 
 export function speakTaskCard(kind) {

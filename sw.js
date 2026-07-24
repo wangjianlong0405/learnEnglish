@@ -1,8 +1,8 @@
-const CACHE_NAME = "lingua-static-v10";
+const CACHE_NAME = "lingua-static-v11";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
-  "./styles.css?v=9",
+  "./styles.css?v=10",
   "./app.js",
   "./favicon.svg",
   "./site.webmanifest",

@@ -242,7 +242,7 @@ export function renderDailyPlan() {
 
   const intro = document.querySelector("#assessment-intro-text");
   if (intro) {
-    intro.textContent = `${placementQuestions.length} 道由易到难的题目，帮助你选择更合适的起点。结果仅用于学习推荐，不替代正式语言考试。`;
+    intro.textContent = `${placementQuestions.length} 道由易到难的题目，支持听题与选项朗读，帮助你选择更合适的起点。结果仅用于学习推荐，不替代正式语言考试。`;
   }
   const duration = document.querySelector("#assessment-duration");
   if (duration) {

@@ -82,15 +82,18 @@ document.body.addEventListener("click", (event) => {
   const practice = event.target.closest("[data-go-practice]");
   if (practice) showView("practice");
 });
-document.querySelectorAll("[data-open-age]").forEach((button) => button.addEventListener("click", async (event) => {
+document.querySelectorAll("[data-open-age]").forEach((button) => button.addEventListener("click", (event) => {
   if (event.target.closest("[data-kids-listen-age]")) return;
   state.selectedAge = button.dataset.openAge;
   state.selectedTopic = "all";
   syncKidsModeUi();
-  if (state.selectedAge === "kids" || state.selectedAge === "preschool") await speakAgeChoice(state.selectedAge);
+  // Navigate first — awaiting TTS made 4–6/kids feel unresponsive when speech was slow.
   renderAgeProgram();
   updateDashboard();
   showView("learning");
+  if (state.selectedAge === "kids" || state.selectedAge === "preschool") {
+    speakAgeChoice(state.selectedAge);
+  }
 }));
 
 document.querySelectorAll(".view h1").forEach((heading) => { heading.tabIndex = -1; });
