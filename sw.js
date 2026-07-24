@@ -1,4 +1,4 @@
-const CACHE_NAME = "lingua-static-v4";
+const CACHE_NAME = "lingua-static-v5";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -25,6 +25,9 @@ const PRECACHE_URLS = [
   "./js/pwa.js",
   "./js/backup.js",
   "./js/grammar-catalog.js",
+  "./js/phonetics-chart.js",
+  "./js/kids-voice.js",
+  "./js/output-tips.js",
   "./js/persist.js",
   "./js/quiz-runner.js",
   "./js/view-bootstrap.js",
@@ -32,11 +35,13 @@ const PRECACHE_URLS = [
   "./data/index.js",
   "./data/words.js",
   "./data/curriculum.js",
+  "./data/course-packs.js",
   "./data/age-programs.js",
   "./data/assessment.js",
   "./data/skills.js",
   "./data/practice.js",
   "./data/grammar.js",
+  "./data/phonetics.js",
 ];
 
 self.addEventListener("install", (event) => {
@@ -59,6 +64,17 @@ self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
 });
 
+function isAppShellAsset(url) {
+  const path = url.pathname;
+  return (
+    path.endsWith(".js")
+    || path.includes("/js/")
+    || path.includes("/data/")
+    || path.endsWith("/app.js")
+    || path.endsWith("/sw.js")
+  );
+}
+
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
@@ -75,6 +91,22 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => caches.match("./index.html").then((cached) => cached || caches.match("./404.html"))),
+    );
+    return;
+  }
+
+  // JS / data: network-first so phonetics & content updates are not stuck on stale cache.
+  if (isAppShellAsset(url)) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response && response.status === 200 && response.type === "basic") {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request)),
     );
     return;
   }

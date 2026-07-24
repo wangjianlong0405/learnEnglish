@@ -1,5 +1,33 @@
 import { showToast } from "./ui.js";
-import { BACKUP_VERSION, clearLinguaEntries, collectLinguaEntries } from "./persist.js";
+import { BACKUP_VERSION, KEYS, clearLinguaEntries, collectLinguaEntries, setString } from "./persist.js";
+
+export function validateBackupPayload(payload) {
+  if (!payload || typeof payload !== "object") {
+    return { ok: false, message: "这不是 Lingua 进度备份文件" };
+  }
+  if (payload.app !== "lingua-english" || !payload.data || typeof payload.data !== "object") {
+    return { ok: false, message: "这不是 Lingua 进度备份文件" };
+  }
+  const entries = Object.entries(payload.data).filter(([key, value]) => key.startsWith("lingua") && typeof value === "string");
+  if (!entries.length) {
+    return { ok: false, message: "备份里没有可导入的进度" };
+  }
+  const version = Number.isFinite(payload.version) ? payload.version : null;
+  let warning = "";
+  if (version === null) {
+    warning = "备份缺少版本号，将按当前格式尝试导入。";
+  } else if (version > BACKUP_VERSION) {
+    warning = `备份来自更新版本（v${version}，当前 v${BACKUP_VERSION}），部分字段可能无法识别。`;
+  } else if (version < BACKUP_VERSION) {
+    warning = `这是旧版备份（v${version}），将按当前格式导入。`;
+  }
+  return { ok: true, entries, version, warning };
+}
+
+function hideBackupNudge() {
+  const nudge = document.querySelector("#backup-nudge");
+  if (nudge) nudge.hidden = true;
+}
 
 export function exportProgress() {
   const payload = {
@@ -16,6 +44,8 @@ export function exportProgress() {
   link.download = `lingua-progress-${stamp}.json`;
   link.click();
   URL.revokeObjectURL(url);
+  setString(KEYS.lastBackupAt, payload.exportedAt);
+  hideBackupNudge();
   showToast("学习进度已导出");
 }
 
@@ -28,19 +58,21 @@ async function importProgressFile(file) {
     showToast("文件不是有效的 JSON");
     return;
   }
-  if (!payload || payload.app !== "lingua-english" || !payload.data || typeof payload.data !== "object") {
-    showToast("这不是 Lingua 进度备份文件");
+  const result = validateBackupPayload(payload);
+  if (!result.ok) {
+    showToast(result.message);
     return;
   }
-  const entries = Object.entries(payload.data).filter(([key, value]) => key.startsWith("lingua") && typeof value === "string");
-  if (!entries.length) {
-    showToast("备份里没有可导入的进度");
-    return;
-  }
-  const confirmed = window.confirm(`将导入 ${entries.length} 条本地记录，并覆盖当前浏览器中的 Lingua 进度。是否继续？`);
+  const warnLine = result.warning ? `\n\n${result.warning}` : "";
+  const confirmed = window.confirm(`将导入 ${result.entries.length} 条本地记录，并覆盖当前浏览器中的 Lingua 进度。是否继续？${warnLine}`);
   if (!confirmed) return;
   clearLinguaEntries();
-  entries.forEach(([key, value]) => localStorage.setItem(key, value));
+  result.entries.forEach(([key, value]) => localStorage.setItem(key, value));
+  if (payload.exportedAt && typeof payload.exportedAt === "string") {
+    setString(KEYS.lastBackupAt, payload.exportedAt);
+  } else {
+    setString(KEYS.lastBackupAt, new Date().toISOString());
+  }
   showToast("进度已导入，正在刷新…");
   setTimeout(() => window.location.reload(), 600);
 }

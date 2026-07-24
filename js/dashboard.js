@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { agePrograms, levelStandards, quiz, words, placementQuestions } from "../data/index.js";
+import { agePrograms, levelStandards, quiz, buildPracticeSession, activeWordDeck, placementQuestions } from "../data/index.js";
 import { localDateKey, weekDateKeys, saveJson } from "./utils.js";
 import { isDue } from "./srs.js";
 import { KEYS, setCsvSet } from "./persist.js";
@@ -83,32 +83,137 @@ function nextLessonModule() {
   return incomplete[0] || program.modules[0];
 }
 
+function wordDeck() {
+  return activeWordDeck(state.learnerLevel, state.selectedAge);
+}
+
 function countDueWords() {
-  return words.filter((word) => isDue(state.wordSchedule[word.word])).length;
+  return wordDeck().filter((word) => isDue(state.wordSchedule[word.word])).length;
+}
+
+function countDueMistakes() {
+  return state.mistakes.filter((item) => item.nextReview <= Date.now()).length;
+}
+
+/** Priority: placement → due mistakes → due words → next lesson. */
+export function getTodayFocus() {
+  const dueMistakes = countDueMistakes();
+  const dueWords = countDueWords();
+  const module = nextLessonModule();
+
+  if (state.learnerLevel === "未测评") {
+    return {
+      kind: "assessment",
+      eyebrow: "今日优先",
+      title: "先完成水平测试",
+      description: "约 3 分钟，生成适合你的等级与课程路径。",
+      cta: "开始水平测试",
+    };
+  }
+  if (dueMistakes > 0) {
+    return {
+      kind: "review",
+      eyebrow: "今日优先 · 到期复习",
+      title: `${dueMistakes} 个错题待复习`,
+      description: "间隔复习到期了，先清掉再学新课，记忆更牢。",
+      cta: "打开错题本",
+    };
+  }
+  if (dueWords > 0) {
+    return {
+      kind: "words",
+      eyebrow: "今日优先 · 词汇到期",
+      title: `${dueWords} 个单词待复习`,
+      description: "用主动回忆过一遍到期词卡，再进入今天的短课。",
+      cta: "开始词汇复习",
+    };
+  }
+  return {
+    kind: "lesson",
+    eyebrow: `今日优先 · ${module.label}`,
+    title: module.title,
+    description: module.description,
+    cta: "开始今日短课",
+  };
+}
+
+export function renderTodayFocus() {
+  const focus = getTodayFocus();
+  const card = document.querySelector("#today-focus");
+  const action = document.querySelector("#today-focus-action");
+  if (!card || !action) return;
+  // 未测评时 Hero + 学习路径已有入口，避免首页再叠一块「去测评」
+  const showFocus = focus.kind !== "assessment";
+  card.hidden = !showFocus;
+  if (!showFocus) return;
+  document.querySelector("#today-focus-eyebrow").textContent = focus.eyebrow;
+  document.querySelector("#today-focus-title").textContent = focus.title;
+  document.querySelector("#today-focus-description").textContent = focus.description;
+  action.textContent = focus.cta;
+  action.dataset.focusKind = focus.kind;
+  card.dataset.focusKind = focus.kind;
 }
 
 export function renderDailyPlan() {
   const module = nextLessonModule();
   const dueWords = countDueWords();
-  const quizMinutes = Math.max(5, Math.ceil(quiz.length / 3));
+  const dueMistakes = countDueMistakes();
+  const quizSessionLen = buildPracticeSession(quiz, state.learnerLevel, state.selectedAge, 12).length;
+  const quizMinutes = Math.max(5, Math.ceil(quizSessionLen / 3));
+  const focus = getTodayFocus();
+  const reviewMinutes = dueMistakes ? Math.min(10, dueMistakes * 2) : 0;
 
-  document.querySelector("#hero-lesson-label").textContent = `今日推荐 · ${module.label} · 约 12 分钟`;
-  document.querySelector("#hero-module-title").textContent = module.title;
-  document.querySelector("#hero-description").textContent = module.description;
+  document.querySelector("#hero-lesson-label").textContent = `${focus.eyebrow} · 约 ${focus.kind === "assessment" ? 3 : focus.kind === "review" ? reviewMinutes || 5 : focus.kind === "words" ? 8 : 12} 分钟`;
+  document.querySelector("#hero-module-title").textContent = focus.title;
+  document.querySelector("#hero-description").textContent = focus.description;
+  document.querySelectorAll("[data-today-focus]").forEach((button) => {
+    button.dataset.focusKind = focus.kind;
+    if (button.id === "today-focus-action" || button.matches(".hero-copy [data-today-focus]")) {
+      button.innerHTML = button.id === "today-focus-action" ? focus.cta : `${focus.cta} <span>→</span>`;
+    }
+  });
 
-  document.querySelector("#daily-plan-duration").textContent = `约 ${12 + 8 + quizMinutes} 分钟`;
+  document.querySelector("#daily-plan-duration").textContent = `约 ${12 + 8 + quizMinutes + reviewMinutes} 分钟`;
 
   document.querySelector("#task-lesson-title").textContent = module.title;
   document.querySelector("#task-lesson-desc").textContent = "五阶段短课：导入、输入、练习与主动输出";
+  document.querySelector("#task-lesson-card")?.classList.toggle("is-priority", focus.kind === "lesson");
 
   document.querySelector("#task-word-title").textContent = dueWords ? `到期词汇（${dueWords} 个）` : "词汇巩固";
   document.querySelector("#task-word-desc").textContent = dueWords
     ? "优先复习今天到期的单词卡片"
-    : `浏览词库并完成主动回忆（共 ${words.length} 词）`;
+    : `浏览当前词库并完成主动回忆（共 ${wordDeck().length} 词）`;
+  document.querySelector("#task-word-card")?.classList.toggle("is-due", dueWords > 0);
+  document.querySelector("#task-word-card")?.classList.toggle("is-priority", focus.kind === "words");
 
-  document.querySelector("#task-quiz-title").textContent = "每日小测";
-  document.querySelector("#task-quiz-desc").textContent = `共 ${quiz.length} 道题，检查今天的学习效果`;
-  document.querySelector("#task-quiz-meta").textContent = `综合练习 · ${quizMinutes} 分钟`;
+  const quizCard = document.querySelector("#task-quiz-card");
+  const quizButton = document.querySelector("#task-quiz-card [data-go-practice], #task-quiz-card [data-go-review]");
+  if (dueMistakes > 0) {
+    document.querySelector("#task-quiz-title").textContent = `错题复习（${dueMistakes} 个到期）`;
+    document.querySelector("#task-quiz-desc").textContent = "按 1/3/7/14/30 天间隔巩固答错的知识点";
+    document.querySelector("#task-quiz-meta").textContent = `错题本 · 约 ${reviewMinutes || 5} 分钟`;
+    quizCard?.classList.add("is-due");
+    quizCard?.classList.toggle("is-priority", focus.kind === "review");
+    if (quizButton) {
+      quizButton.removeAttribute("data-go-practice");
+      quizButton.setAttribute("data-go-review", "");
+      quizButton.setAttribute("aria-label", "打开错题本");
+    }
+  } else {
+    document.querySelector("#task-quiz-title").textContent = "每日小测";
+    document.querySelector("#task-quiz-desc").textContent = `本次约 ${quizSessionLen} 道题（按等级抽题），检查今天的学习效果`;
+    document.querySelector("#task-quiz-meta").textContent = `综合练习 · ${quizMinutes} 分钟`;
+    quizCard?.classList.remove("is-due");
+    quizCard?.classList.remove("is-priority");
+    if (quizButton) {
+      quizButton.removeAttribute("data-go-review");
+      quizButton.setAttribute("data-go-practice", "");
+      quizButton.setAttribute("aria-label", "开始综合练习");
+    }
+  }
+
+  renderTodayFocus();
+  renderBackupNudge();
 
   const intro = document.querySelector("#assessment-intro-text");
   if (intro) {
@@ -118,6 +223,25 @@ export function renderDailyPlan() {
   if (duration) {
     duration.textContent = `约 ${Math.max(3, Math.ceil(placementQuestions.length / 4))} 分钟`;
   }
+}
+
+export function renderBackupNudge() {
+  const nudge = document.querySelector("#backup-nudge");
+  if (!nudge) return;
+  const raw = localStorage.getItem(KEYS.lastBackupAt);
+  const last = raw ? Date.parse(raw) : NaN;
+  const days = Number.isFinite(last) ? Math.floor((Date.now() - last) / 86400000) : null;
+  if (days === null) {
+    nudge.hidden = false;
+    nudge.textContent = "进度只存在本机浏览器。建议导出一份 JSON 备份，换设备或清缓存时可用导入恢复。";
+    return;
+  }
+  if (days >= 7) {
+    nudge.hidden = false;
+    nudge.textContent = `距离上次导出备份已过 ${days} 天。定期导出可避免意外丢失学习记录。`;
+    return;
+  }
+  nudge.hidden = true;
 }
 
 export function updateDashboard() {
@@ -145,7 +269,8 @@ export function updateDashboard() {
   const currentCompleted = agePrograms[state.selectedAge].modules.filter((module) => state.completedLessons.has(`${state.selectedAge}:${module.type}`)).length;
   document.querySelector("#lesson-task-progress").style.width = `${currentCompleted / 3 * 100}%`;
   document.querySelector("#word-task-progress").style.width = `${Math.min(state.learnedWords / 12 * 100, 100)}%`;
-  document.querySelector("#quiz-task-progress").style.width = `${state.quizBest / quiz.length * 100}%`;
+  const quizDenom = Math.max(1, buildPracticeSession(quiz, state.learnerLevel, state.selectedAge, 12).length);
+  document.querySelector("#quiz-task-progress").style.width = `${Math.min(state.quizBest / quizDenom * 100, 100)}%`;
 
   const weeklyUnits = countWeeklyUnits();
   document.querySelector("#sidebar-progress-bar").style.width = `${weeklyUnits / WEEKLY_GOAL * 100}%`;
@@ -153,4 +278,5 @@ export function updateDashboard() {
   document.querySelector(".mini-progress").setAttribute("aria-valuenow", weeklyUnits);
   renderPersonalPath();
   renderDailyPlan();
+  import("./kids-voice.js").then((mod) => mod.renderKidsHomeCoach()).catch(() => {});
 }

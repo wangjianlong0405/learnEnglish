@@ -1,7 +1,9 @@
-export { words } from "./words.js";
+export { words, LEVEL_RANK, AGE_LEVELS, activeWordDeck } from "./words.js";
 export { courses, levelStandards, levelRecommendations } from "./curriculum.js";
+export { coursePacks, getCoursePack } from "./course-packs.js";
 export { agePrograms, lessonChecks, lessonOutputTasks } from "./age-programs.js";
 export { placementQuestions, recommendPlacementLevel } from "./assessment.js";
-export { skillMaterials, skillTierForLevel } from "./skills.js";
-export { unitQuestions, quiz } from "./practice.js";
+export { skillMaterials, skillTierForLevel, skillItemList } from "./skills.js";
+export { unitQuestions, quiz, buildPracticeSession, filterPracticeByLevel } from "./practice.js";
 export { grammarCategories, grammarTopics } from "./grammar.js";
+export { phoneticCategories, phoneticSymbols, phoneticById, phoneticsInCategory, phoneticMinimalPairs, pairsForSymbol } from "./phonetics.js";

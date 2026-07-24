@@ -5,6 +5,7 @@ import { showView } from "./router.js";
 import { updateDashboard, recordWeekActivity } from "./dashboard.js";
 import { syncRecommendedCourseLevel } from "./lessons.js";
 import { renderSkillPanels } from "./skills.js";
+import { renderWord } from "./word-review.js";
 import { KEYS, setString } from "./persist.js";
 import { bindChoiceButtons, markChoiceResult, renderMultipleChoice, setBarProgress, showFeedbackNext } from "./quiz-runner.js";
 import { escapeHtml } from "./utils.js";
@@ -50,6 +51,7 @@ export function renderAssessment() {
     updateDashboard();
     recordWeekActivity(1);
     renderSkillPanels();
+    renderWord();
     return;
   }
 

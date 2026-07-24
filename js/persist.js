@@ -14,6 +14,8 @@ export const KEYS = {
   wordSchedule: "linguaWordSchedule",
   weekLog: "linguaWeekLog",
   grammarDone: "linguaGrammarDone",
+  lastBackupAt: "linguaLastBackupAt",
+  kidsVoiceAuto: "linguaKidsVoiceAuto",
 };
 
 const PREFIX = "lingua";

@@ -2,6 +2,8 @@
 
 Lingua 当前是无后端、无第三方运行时依赖的静态网站。用户的等级、课程完成情况和练习记录只保存在当前浏览器中。
 
+生产站点域名：**https://www.learningtoday.top/**（源码中的 `sitemap.xml` / `robots.txt` 已按此填写）。
+
 ## 发布前
 
 ```bash
@@ -21,36 +23,53 @@ npm run dev
 8. 在桌面端和手机端检查所有主要页面没有横向滚动，浏览器控制台没有错误；确认 Service Worker 注册成功。
 9. 可选自动化冒烟：`npm run smoke:install` 后执行 `npm run smoke`（Playwright，需本地安装依赖）。
 
-## 静态托管
+## 静态托管（按平台）
 
-可以部署到 Netlify、Cloudflare Pages、Vercel 或 GitHub Pages。
+可以部署到 Netlify、Cloudflare Pages、Vercel 或 GitHub Pages。Node.js：**20 或更高**。404 页面：`404.html`（按平台映射）。
 
-- 构建命令：`npm run check`
-- 发布目录：项目根目录 `.`
-- Node.js：20 或更高版本
-- 404 页面：`404.html`（按平台映射）
+| 平台 | 构建命令 | 发布目录 | 安全响应头 |
+|------|----------|----------|------------|
+| **Vercel**（推荐） | `npm run vercel-build`（由 `vercel.json` 触发） | `public/`（构建生成，已 gitignore） | `vercel.json` → `headers` |
+| Netlify / Cloudflare Pages / GitHub Pages | `npm run check` | 仓库根目录 `.` | Netlify 读 `_headers`；其他平台需手动对齐 |
 
-Netlify 会自动读取项目根目录的 `_headers` 安全响应头配置。Vercel 使用根目录的 `vercel.json`（已与 `_headers` / 本地 `scripts/dev-server.mjs` 对齐）。其他平台请在配置中加入相同的 CSP、Permissions-Policy、Referrer-Policy 和 X-Content-Type-Options 响应头，并保留 `media-src 'self' blob:`、`microphone=(self)` 与 `worker-src 'self'`。
+通用安全头要求（与 `_headers` / `vercel.json` / 本地 `scripts/dev-server.mjs` 一致）：CSP、Permissions-Policy、Referrer-Policy、X-Content-Type-Options；并保留 `media-src 'self' blob:`、`microphone=(self)`、`worker-src 'self'`。
+
+**不要**在生产环境运行 `scripts/dev-server.mjs`；也**不要**配置 Start / Dev Command。Framework 选 **Other**（或不选框架）。
+
+### 为何 Vercel 用 `public/`
+
+`@vercel/static-build` 会执行 `package.json` 的 `vercel-build`：
+
+1. `npm run check` — 语法、数据门禁、核心单测
+2. `node scripts/stage-static.mjs` — 把 `index.html`、`app.js`、`js/`、`data/` 等拷到 `public/`
+
+`vercel.json` 中 `distDir: "public"`，CDN 只托管该目录。本地 `public/` 仅为构建产物，**以源码目录为准**，修改后需重新部署（或本地再跑一次 `npm run vercel-build`）才会更新产物。
+
+若 Dashboard 里手动覆盖了 Build / Output，请改回与仓库 `vercel.json` 一致，否则可能再次出现把项目当 Serverless 解析导致的 500。
 
 ### Vercel（推荐与 GitHub 联动）
 
 1. 在 [Vercel Dashboard](https://vercel.com/new) 导入仓库 [wangjianlong0405/learnEnglish](https://github.com/wangjianlong0405/learnEnglish)。
-2. **Framework Preset**：Other（或不选框架）。
-3. **Root Directory**：`.`（默认即可）。
-4. 构建与安装由仓库内 `vercel.json` 指定：
+2. **Framework Preset**：Other。
+3. **Root Directory**：`.`。
+4. 安装与构建以仓库 `vercel.json` 为准（勿在 UI 里填冲突的 Build / Output / Start）：
    - Install：`npm ci`
-   - Build：`npm run check`（静态门禁，无打包产物）
-5. **Output**：静态文件来自仓库根目录，无需额外 Output Directory。
-6. 部署完成后访问分配的 `*.vercel.app` 域名；应用使用 hash 路由（如 `/#words`），入口始终为 `/`。
-7. 绑定自定义域名后，更新 `sitemap.xml` 中的站点 URL。
+   - Build：`vercel-build` → `check` + 暂存到 `public/`
+   - Output：`public`
+5. 部署完成后访问 `*.vercel.app`；应用使用 hash 路由（如 `/#words`），入口始终为 `/`。
+6. 绑定自定义域名 `www.learningtoday.top`（及必要时根域跳转）后，确认 HTTPS 强制开启。
 
-说明：生产环境不运行开发服务器（`scripts/dev-server.mjs`）；Vercel 通过 `vercel-build` 将静态资源写入 `public/` 并由 CDN 托管。请在 Vercel 项目设置中 **不要** 填写 Start Command（留空），Framework 选 **Other**。
+### Netlify / 其他平台
+
+- 构建命令：`npm run check`
+- 发布目录：`.`（根目录，这样 `_headers` 才会生效）
+- 勿使用 `public/` 作为发布目录，除非自行把 `_headers` 一并拷入并调整平台配置
 
 ## 正式域名上线后
 
 1. 强制启用 HTTPS（PWA 与麦克风都需要）。
-2. 将真实域名加入站点管理平台。
-3. 把 `sitemap.xml` 中的 `https://example.com/` 换成真实域名；`robots.txt` 已声明 Sitemap。
+2. 在托管平台绑定 `www.learningtoday.top`（及根域重定向策略）。
+3. 确认 `sitemap.xml` 的 `<loc>` 与 `robots.txt` 的 `Sitemap` 指向同一正式域名。
 4. 确认平台已使用 `404.html`，并配置可用性监控。
 5. 如果增加账号、云端同步、录音上传或数据分析，必须先更新隐私政策并提供数据删除方式。
 

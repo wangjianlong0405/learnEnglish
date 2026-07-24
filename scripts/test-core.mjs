@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { applySrsResult, SRS_FAIL_RETRY_MS, SRS_INTERVALS_DAYS } from "../js/srs.js";
 import { recommendPlacementLevel } from "../data/assessment.js";
+import { BACKUP_VERSION } from "../js/persist.js";
+import { validateBackupPayload } from "../js/backup.js";
 
 function testSrsSuccessLadder() {
   const item = { stage: 0 };
@@ -44,9 +46,48 @@ function testPlacementMapping() {
   assert.equal(recommendPlacementLevel(12, 12), "B2");
 }
 
+function testBackupValidation() {
+  assert.equal(validateBackupPayload(null).ok, false);
+  assert.equal(validateBackupPayload({ app: "other", data: {} }).ok, false);
+  assert.equal(validateBackupPayload({ app: "lingua-english", data: {} }).ok, false);
+
+  const current = validateBackupPayload({
+    app: "lingua-english",
+    version: BACKUP_VERSION,
+    data: { linguaLevel: "A2" },
+  });
+  assert.equal(current.ok, true);
+  assert.equal(current.warning, "");
+  assert.equal(current.entries.length, 1);
+
+  const older = validateBackupPayload({
+    app: "lingua-english",
+    version: 0,
+    data: { linguaLevel: "A1" },
+  });
+  assert.equal(older.ok, true);
+  assert.match(older.warning, /旧版备份/);
+
+  const newer = validateBackupPayload({
+    app: "lingua-english",
+    version: BACKUP_VERSION + 1,
+    data: { linguaLevel: "B1" },
+  });
+  assert.equal(newer.ok, true);
+  assert.match(newer.warning, /更新版本/);
+
+  const missingVersion = validateBackupPayload({
+    app: "lingua-english",
+    data: { linguaLevel: "A2" },
+  });
+  assert.equal(missingVersion.ok, true);
+  assert.match(missingVersion.warning, /缺少版本号/);
+}
+
 testSrsSuccessLadder();
 testSrsFailureRetry();
 testSrsLegacyStage();
 testPlacementMapping();
+testBackupValidation();
 
-console.log("Core logic tests passed (SRS + placement mapping).");
+console.log("Core logic tests passed (SRS + placement mapping + backup validation).");

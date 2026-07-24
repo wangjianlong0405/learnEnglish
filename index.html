@@ -44,6 +44,9 @@
           <button class="nav-item" type="button" data-view="words">
             <span class="nav-icon">A</span><span>词汇复习</span>
           </button>
+          <button class="nav-item" type="button" data-view="phonetics">
+            <span class="nav-icon">/</span><span>音标表</span>
+          </button>
           <button class="nav-item" type="button" data-view="grammar">
             <span class="nav-icon">G</span><span>语法目录</span>
           </button>
@@ -88,12 +91,23 @@
             </div>
           </div>
 
+          <section class="kids-home-coach" id="kids-home-coach" data-kids-only hidden>
+            <div class="kids-home-coach-copy">
+              <strong>小朋友模式 · 不会认字也能学</strong>
+              <p id="kids-home-script">点大大的橙色喇叭，听听今天做什么。</p>
+            </div>
+            <div class="kids-home-coach-actions">
+              <button class="kids-listen-btn" type="button" data-kids-listen-home>🔊 听今天安排</button>
+              <button class="kids-listen-btn kids-listen-btn-primary" type="button" data-kids-start-learning>🔊 听完去上课</button>
+            </div>
+          </section>
+
           <section class="hero-card">
             <div class="hero-copy">
               <span class="lesson-label" id="hero-lesson-label">今日课程 · 12 分钟</span>
               <h2 id="hero-module-title">Confidence starts<br />with a simple <em>hello.</em></h2>
               <p id="hero-description">学习自然开启一段英文对话，并在真实场景中自信表达自己。</p>
-              <button class="primary-button" type="button" data-start-lesson>
+              <button class="primary-button" type="button" data-today-focus data-focus-kind="lesson">
                 继续学习 <span>→</span>
               </button>
             </div>
@@ -127,50 +141,64 @@
               <p>从趣味启蒙到职场表达，选择你的阶段，学习词汇、音标和语法。</p>
             </div>
             <div class="age-preview-actions">
-              <button type="button" data-open-age="kids"><strong>6–9</strong><span>少儿启蒙</span></button>
+              <button type="button" data-open-age="kids"><strong>6–9</strong><span>少儿启蒙</span><span class="kids-age-listen" data-kids-listen-age="kids" data-kids-only hidden>🔊</span></button>
               <button type="button" data-open-age="teens"><strong>10–14</strong><span>青少年</span></button>
               <button type="button" data-open-age="exam"><strong>15–18</strong><span>高中备考</span></button>
               <button type="button" data-open-age="adults"><strong>18+</strong><span>成人英语</span></button>
             </div>
           </section>
 
-          <div class="section-heading">
-            <div><span class="section-number">01</span><h2>今日学习计划</h2></div>
-            <span class="muted" id="daily-plan-duration">约 25 分钟</span>
-          </div>
+          <section class="daily-plan-block">
+            <div class="section-heading">
+              <div><span class="section-number">01</span><h2>今日学习计划</h2></div>
+              <span class="muted" id="daily-plan-duration">约 25 分钟</span>
+            </div>
 
-          <div class="daily-grid">
-            <article class="task-card peach-card">
-              <div class="task-icon">▶</div>
-              <span class="task-meta" id="task-lesson-meta">课程 · 12 分钟</span>
-              <h3 id="task-lesson-title">打招呼与自我介绍</h3>
-              <p id="task-lesson-desc">6 个短小、有节奏的学习环节</p>
-              <div class="card-bottom">
-                <div class="progress-line"><span id="lesson-task-progress" style="width: 0%"></span></div>
-                <button type="button" data-start-lesson aria-label="继续课程">→</button>
+            <section class="today-focus-card" id="today-focus" data-focus-kind="lesson" hidden>
+              <div class="today-focus-copy">
+                <span class="eyebrow" id="today-focus-eyebrow">今日优先</span>
+                <h2 id="today-focus-title">先完成水平测试</h2>
+                <p id="today-focus-description">约 3 分钟，生成适合你的等级与课程路径。</p>
               </div>
-            </article>
-            <article class="task-card blue-card">
-              <div class="task-icon">Aa</div>
-              <span class="task-meta" id="task-word-meta">词汇 · 8 分钟</span>
-              <h3 id="task-word-title">日常问候</h3>
-              <p id="task-word-desc">复习高频表达</p>
-              <div class="card-bottom">
-                <div class="progress-line"><span id="word-task-progress" style="width: 0%"></span></div>
-                <button type="button" data-go-words aria-label="开始词汇练习">→</button>
-              </div>
-            </article>
-            <article class="task-card cream-card">
-              <div class="task-icon">◉</div>
-              <span class="task-meta" id="task-quiz-meta">综合练习 · 5 分钟</span>
-              <h3 id="task-quiz-title">问候表达小测</h3>
-              <p id="task-quiz-desc">检查今天的学习效果</p>
-              <div class="card-bottom">
-                <div class="progress-line"><span id="quiz-task-progress" style="width: 0%"></span></div>
-                <button type="button" data-go-practice aria-label="开始综合练习">→</button>
-              </div>
-            </article>
-          </div>
+              <button class="primary-button" type="button" id="today-focus-action" data-today-focus data-focus-kind="assessment">开始水平测试</button>
+            </section>
+
+            <div class="daily-grid">
+              <article class="task-card peach-card" id="task-lesson-card">
+                <button class="kids-card-listen" type="button" data-kids-only data-kids-listen-task="lesson" hidden aria-label="听课程说明">🔊</button>
+                <div class="task-icon">▶</div>
+                <span class="task-meta" id="task-lesson-meta">课程 · 12 分钟</span>
+                <h3 id="task-lesson-title">打招呼与自我介绍</h3>
+                <p id="task-lesson-desc">6 个短小、有节奏的学习环节</p>
+                <div class="card-bottom">
+                  <div class="progress-line"><span id="lesson-task-progress" style="width: 0%"></span></div>
+                  <button type="button" data-start-lesson aria-label="继续课程">→</button>
+                </div>
+              </article>
+              <article class="task-card blue-card" id="task-word-card">
+                <button class="kids-card-listen" type="button" data-kids-only data-kids-listen-task="words" hidden aria-label="听词汇说明">🔊</button>
+                <div class="task-icon">Aa</div>
+                <span class="task-meta" id="task-word-meta">词汇 · 8 分钟</span>
+                <h3 id="task-word-title">日常问候</h3>
+                <p id="task-word-desc">复习高频表达</p>
+                <div class="card-bottom">
+                  <div class="progress-line"><span id="word-task-progress" style="width: 0%"></span></div>
+                  <button type="button" data-go-words aria-label="开始词汇练习">→</button>
+                </div>
+              </article>
+              <article class="task-card cream-card" id="task-quiz-card">
+                <button class="kids-card-listen" type="button" data-kids-only data-kids-listen-task="quiz" hidden aria-label="听练习说明">🔊</button>
+                <div class="task-icon">◉</div>
+                <span class="task-meta" id="task-quiz-meta">综合练习 · 5 分钟</span>
+                <h3 id="task-quiz-title">问候表达小测</h3>
+                <p id="task-quiz-desc">检查今天的学习效果</p>
+                <div class="card-bottom">
+                  <div class="progress-line"><span id="quiz-task-progress" style="width: 0%"></span></div>
+                  <button type="button" data-go-practice aria-label="开始综合练习">→</button>
+                </div>
+              </article>
+            </div>
+          </section>
 
           <div class="lower-grid">
             <section class="weekly-card">
@@ -181,7 +209,13 @@
               <div class="week-row" id="week-row"></div>
             </section>
             <section class="phrase-card">
-              <div class="phrase-top"><span>每日一句</span><button type="button" id="speak-phrase" aria-label="播放每日一句">◖))</button></div>
+              <div class="phrase-top">
+                <span>每日一句</span>
+                <div class="phrase-top-actions">
+                  <button type="button" id="speak-phrase" aria-label="播放英文每日一句">EN</button>
+                  <button type="button" data-kids-only data-kids-listen-phrase hidden aria-label="小朋友听中英双语">🔊</button>
+                </div>
+              </div>
               <blockquote>“Small steps every day lead to big changes.”</blockquote>
               <p>每天迈出一小步，终将带来巨大的改变。</p>
             </section>
@@ -260,6 +294,7 @@
           <section class="knowledge-map" id="knowledge-map" aria-label="课程知识地图"></section>
           <div class="section-heading curriculum-heading"><div><span class="section-number">NEXT</span><h2>推荐主题课程</h2></div></div>
           <div class="course-list" id="course-list"></div>
+          <section class="course-pack lesson-preview" id="course-pack" hidden aria-live="polite"></section>
         </section>
 
         <section class="view" id="words" data-page="words">
@@ -267,7 +302,8 @@
             <div>
               <p class="eyebrow">SMART REVIEW</p>
               <h1>单词卡片</h1>
-              <p>先回想，再翻面。主动记忆比重复阅读更有效。</p>
+              <p>先回想，再翻面。主动记忆比重复阅读更有效。词库会按你的等级或分龄轨道筛选。</p>
+              <p class="word-deck-label" id="word-deck-label">当前词库</p>
             </div>
             <div class="word-stats"><strong id="words-learned">0</strong><span>今日已复习</span></div>
           </div>
@@ -283,6 +319,7 @@
                   <small>WORD <b id="word-position">1 / 6</b></small>
                   <strong id="word-text">greeting</strong>
                   <span id="word-phonetic">/ˈɡriːtɪŋ/</span>
+                  <span class="word-meta" id="word-meta">A2 · social</span>
                   <em>点击查看释义</em>
                 </span>
                 <span class="card-face card-back" aria-hidden="true">
@@ -294,7 +331,8 @@
               </button>
               <div class="flash-actions">
                 <button class="secondary-button" id="review-word" type="button">再看看</button>
-                <button class="sound-button" id="speak-word" type="button" aria-label="播放单词发音">◖))</button>
+                <button class="sound-button" id="speak-word" type="button" aria-label="播放英语单词">EN</button>
+                <button class="sound-button sound-button-zh" id="speak-meaning" type="button" aria-label="播放中文释义">中文</button>
                 <button class="primary-button compact-button" id="know-word" type="button">记住了 ✓</button>
               </div>
             </div>
@@ -308,6 +346,28 @@
               </div>
             </aside>
           </div>
+        </section>
+
+        <section class="view" id="phonetics" data-page="phonetics">
+          <div class="page-intro split-intro">
+            <div>
+              <p class="eyebrow">IPA CHART</p>
+              <h1>音标表</h1>
+              <p>点选音标，先听中文口型提示，再听例词发音。适合少儿启蒙与自学纠音。</p>
+            </div>
+            <div class="word-stats"><strong id="phonetic-count">0</strong><span>当前可点读音标</span></div>
+          </div>
+          <div class="phonetic-categories" role="tablist" aria-label="音标分类">
+            <button class="is-active" type="button" role="tab" aria-selected="true" data-phonetic-category="all">全部</button>
+            <button type="button" role="tab" aria-selected="false" data-phonetic-category="vowels">元音</button>
+            <button type="button" role="tab" aria-selected="false" data-phonetic-category="diphthongs">双元音</button>
+            <button type="button" role="tab" aria-selected="false" data-phonetic-category="consonants">辅音</button>
+          </div>
+          <div class="phonetic-layout">
+            <div class="phonetic-grid" id="phonetic-grid"></div>
+            <section class="phonetic-detail" id="phonetic-detail" aria-live="polite"></section>
+          </div>
+          <section class="phonetic-pairs" id="phonetic-pairs" aria-label="最小对立练习"></section>
         </section>
 
         <section class="view" id="grammar" data-page="grammar">
@@ -381,6 +441,7 @@
         <footer class="site-footer">
           <span>© <span id="copyright-year">2026</span> Lingua</span>
           <span>学习记录仅保存在你的浏览器中，不会上传个人信息。</span>
+          <p class="backup-nudge" id="backup-nudge" hidden>进度只存在本机浏览器。建议导出一份 JSON 备份，换设备或清缓存时可用导入恢复。</p>
           <div class="backup-actions">
             <button class="secondary-button" type="button" data-export-progress>导出进度</button>
             <label class="backup-import secondary-button">导入进度<input type="file" accept="application/json,.json" data-import-progress hidden /></label>

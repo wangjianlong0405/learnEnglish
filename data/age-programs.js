@@ -122,7 +122,24 @@ export const lessonChecks = {
 };
 
 export const lessonOutputTasks = {
-  vocabulary: "使用本课的一个关键词，写一个和你自己有关的完整句子。",
-  phonetics: "写下这个发音最需要注意的地方，然后大声朗读示例。",
-  grammar: "模仿示例结构，写一个内容不同的新句子。",
+  kids: {
+    vocabulary: "看一张图或想一件东西，用 This is… / I like… 说一句完整的话（可请家长帮忙写下来）。",
+    phonetics: "跟着读三遍例词，再说一说嘴巴要怎么张。",
+    grammar: "用 This is / I have / I like 各说一句，介绍你身边的东西。",
+  },
+  teens: {
+    vocabulary: "用本课 2 个关键词，写 3 句介绍你的校园生活或爱好。",
+    phonetics: "标出示例词的重音音节，并大声朗读两遍。",
+    grammar: "用一般现在时、现在进行时各写一句，描述“平时”和“今天”的不同。",
+  },
+  exam: {
+    vocabulary: "用本课一个学术词造句，并写出它的一个常见搭配。",
+    phonetics: "把示例里的连读点标出来，再用自然语速朗读一遍。",
+    grammar: "改写示例句：保持原意，换成另一个从句引导词或结构。",
+  },
+  adults: {
+    vocabulary: "用本课一个关键词，写一句能直接用于邮件或会议的表达。",
+    phonetics: "朗读示例，并标出你想强调的关键词重音。",
+    grammar: "模仿示例，写一句礼貌请求或说明计划的句子。",
+  },
 };

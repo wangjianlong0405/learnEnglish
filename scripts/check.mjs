@@ -6,12 +6,21 @@ import {
   placementQuestions,
   unitQuestions,
   words,
+  activeWordDeck,
+  LEVEL_RANK,
+  coursePacks,
   quiz,
+  buildPracticeSession,
   skillMaterials,
   skillTierForLevel,
+  skillItemList,
   recommendPlacementLevel,
   lessonChecks,
+  lessonOutputTasks,
   grammarTopics,
+  phoneticSymbols,
+  phoneticMinimalPairs,
+  phoneticById,
 } from "../data/index.js";
 
 const appModules = [
@@ -31,6 +40,9 @@ const appModules = [
   "js/pwa.js",
   "js/backup.js",
   "js/grammar-catalog.js",
+  "js/phonetics-chart.js",
+  "js/kids-voice.js",
+  "js/output-tips.js",
   "js/persist.js",
   "js/quiz-runner.js",
   "js/view-bootstrap.js",
@@ -148,23 +160,94 @@ if (!appSource.includes("data-next-practice") || !appSource.includes("practice-t
   throw new Error("Multi-step lesson practice UI is incomplete");
 }
 
+if (!html.includes('id="kids-home-coach"') || !appSource.includes("initKidsVoice") || !appSource.includes("data-kids-listen-home")) {
+  throw new Error("Kids home voice coach is incomplete");
+}
+
+if (!appSource.includes("analyzeWritingDraft") || !appSource.includes("speakingSelfCheckTips") || !appSource.includes("output-tips.js")) {
+  throw new Error("Local writing/speaking self-check tips are incomplete");
+}
+
+if (!html.includes('id="phonetics"') || !appSource.includes("renderPhoneticsChart") || !appSource.includes("data-phonetic-id") || !appSource.includes("phoneticMinimalPairs") || !html.includes('id="phonetic-pairs"')) {
+  throw new Error("Phonetics chart page is incomplete");
+}
+
+if (!Array.isArray(phoneticSymbols) || phoneticSymbols.length < 40) {
+  throw new Error(`Expected at least 40 phonetic symbols, found ${phoneticSymbols?.length ?? 0}`);
+}
+if (!Array.isArray(phoneticMinimalPairs) || phoneticMinimalPairs.length < 10) {
+  throw new Error(`Expected at least 10 phonetic minimal pairs, found ${phoneticMinimalPairs?.length ?? 0}`);
+}
+for (const pair of phoneticMinimalPairs) {
+  if (!phoneticById(pair.left?.symbolId) || !phoneticById(pair.right?.symbolId) || !pair.left?.word || !pair.right?.word) {
+    throw new Error(`Invalid minimal pair: ${pair.id || "(unknown)"}`);
+  }
+}
+
 if (!html.includes('id="grammar"') || !html.includes("data-grammar-topic") && !appSource.includes("data-grammar-topic") || !appSource.includes("grammarTopics")) {
   throw new Error("Grammar catalog page is incomplete");
 }
 
-if (grammarTopics.length < 10 || grammarTopics.some((topic) => !Array.isArray(topic.questions) || topic.questions.length < 2)) {
-  throw new Error("Expected at least 10 grammar topics with 2+ practice questions each");
+if (grammarTopics.length < 14 || grammarTopics.some((topic) => !Array.isArray(topic.questions) || topic.questions.length < 4)) {
+  throw new Error("Expected at least 14 grammar topics with 4+ practice questions each");
 }
 
 const unitQuestionCount = unitQuestions.length;
-if (unitQuestionCount !== 16) throw new Error(`Expected 16 unit-test questions, found ${unitQuestionCount}`);
+if (unitQuestionCount < 16) throw new Error(`Expected at least 16 unit-test questions, found ${unitQuestionCount}`);
 
-if (placementQuestions.length !== 12) throw new Error(`Expected 12 placement questions, found ${placementQuestions.length}`);
+if (placementQuestions.length < 12) throw new Error(`Expected at least 12 placement questions, found ${placementQuestions.length}`);
 
-if (words.length < 50) throw new Error(`Expected at least 50 vocabulary items, found ${words.length}`);
-if (quiz.length < 12) throw new Error(`Expected at least 12 daily quiz items, found ${quiz.length}`);
+if (words.length < 150) throw new Error(`Expected at least 150 vocabulary items, found ${words.length}`);
+for (const word of words) {
+  if (!word.word || !word.level || !word.theme || !Array.isArray(word.tags) || !(word.level in LEVEL_RANK)) {
+    throw new Error(`Vocabulary item missing level/theme/tags: ${word.word || "(unknown)"}`);
+  }
+}
+const preA1Deck = activeWordDeck("Pre-A1");
+if (!preA1Deck.length || preA1Deck.some((word) => LEVEL_RANK[word.level] > LEVEL_RANK["Pre-A1"])) {
+  throw new Error("activeWordDeck(Pre-A1) must only include Pre-A1 words");
+}
+const kidsDeck = activeWordDeck("未测评", "kids");
+if (kidsDeck.length < 80) throw new Error(`Kids age deck should include foundation words, found ${kidsDeck.length}`);
+for (const level of ["Pre-A1", "A1", "A2", "B1", "B2"]) {
+  for (const [title] of courses[level]) {
+    const pack = coursePacks[`${level}:${title}`];
+    if (!pack || pack.questions?.length < 3 || !pack.phrases?.length || !pack.dialogue?.length || !pack.outputTask) {
+      throw new Error(`${level} course pack incomplete: ${title}`);
+    }
+    for (const keyword of pack.keywords || []) {
+      if (!words.some((word) => word.word === keyword)) {
+        throw new Error(`Course pack keyword missing from word bank: ${level}:${title} → ${keyword}`);
+      }
+    }
+  }
+}
+for (const age of Object.keys(agePrograms)) {
+  for (const type of ["vocabulary", "phonetics", "grammar"]) {
+    if (typeof lessonOutputTasks[age]?.[type] !== "string") {
+      throw new Error(`lessonOutputTasks.${age}.${type} is missing`);
+    }
+  }
+}
+if (quiz.length < 24) throw new Error(`Expected at least 24 daily quiz items, found ${quiz.length}`);
+if (quiz.some((item) => !(item.level in LEVEL_RANK)) || unitQuestions.some((item) => !(item.level in LEVEL_RANK))) {
+  throw new Error("Every quiz/unit question needs a CEFR level");
+}
+const preA1Quiz = buildPracticeSession(quiz, "Pre-A1", "kids", 12);
+if (!preA1Quiz.length || preA1Quiz.some((item) => LEVEL_RANK[item.level] > LEVEL_RANK["Pre-A1"])) {
+  throw new Error("Pre-A1 daily quiz session must not include higher-level items");
+}
+const b2Unit = buildPracticeSession(unitQuestions, "B2", "exam", 10);
+if (b2Unit.length < 8) throw new Error(`B2 unit session too small: ${b2Unit.length}`);
 if (!skillMaterials.intermediate || skillTierForLevel("A2") !== "intermediate") {
   throw new Error("Intermediate skill tier is missing");
+}
+for (const tier of ["foundation", "intermediate", "advanced"]) {
+  const materials = skillMaterials[tier];
+  if (skillItemList(materials, "listening").length < 3) throw new Error(`${tier} listening needs at least 3 items`);
+  if (skillItemList(materials, "speaking").length < 3) throw new Error(`${tier} speaking needs at least 3 items`);
+  if (skillItemList(materials, "reading").length < 2) throw new Error(`${tier} reading needs at least 2 items`);
+  if (skillItemList(materials, "writing").length < 2) throw new Error(`${tier} writing needs at least 2 items`);
 }
 if (recommendPlacementLevel(0, 12) !== "Pre-A1" || recommendPlacementLevel(12, 12) !== "B2") {
   throw new Error("Placement level mapping is incorrect");
@@ -203,6 +286,16 @@ if (!vercelText.includes("@vercel/static-build") || !vercelText.includes("public
 
 if (!swSource.includes("caches.open") || !appSource.includes("serviceWorker.register") || !app.includes("registerServiceWorker")) {
   throw new Error("PWA service worker registration is incomplete");
+}
+
+for (const asset of ["./data/phonetics.js", "./data/course-packs.js", "./js/phonetics-chart.js", "./js/kids-voice.js", "./js/output-tips.js"]) {
+  if (!swSource.includes(`"${asset}"`)) {
+    throw new Error(`Service worker precache missing ${asset}`);
+  }
+}
+
+if (!swSource.includes("network-first") && !swSource.includes("isAppShellAsset")) {
+  throw new Error("Service worker should network-first JS/data assets");
 }
 
 if (!html.includes("data-export-progress") || !html.includes("data-import-progress") || !appSource.includes("exportProgress")) {

@@ -6,6 +6,7 @@ const viewTitles = {
   learning: "标准课堂 — Lingua",
   lessons: "课程知识地图 — Lingua",
   words: "词汇复习 — Lingua",
+  phonetics: "音标表 — Lingua",
   grammar: "语法目录 — Lingua",
   skills: "英语能力训练 — Lingua",
   practice: "综合测评与复习 — Lingua",

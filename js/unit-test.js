@@ -1,4 +1,4 @@
-import { unitQuestions } from "../data/index.js";
+import { unitQuestions, buildPracticeSession } from "../data/index.js";
 import { state } from "./state.js";
 import { recordMistake, renderReviewCenter } from "./mistakes.js";
 import { recordWeekActivity, updateDashboard } from "./dashboard.js";
@@ -7,36 +7,61 @@ import { bindChoiceButtons, markChoiceResult, renderMultipleChoice, setBarProgre
 import { escapeHtml } from "./utils.js";
 
 const ANSWER_ATTR = "quiz-unit-answer";
+const SESSION_SIZE = 10;
+
+let sessionUnit = null;
+let sessionKey = "";
+
+function ensureUnitSession(force = false) {
+  const key = `${state.learnerLevel}|${state.selectedAge}`;
+  if (force || !sessionUnit?.length || sessionKey !== key) {
+    if (sessionKey && sessionKey !== key) {
+      state.unitIndex = 0;
+      state.unitScore = 0;
+      state.unitAnswered = false;
+    }
+    sessionKey = key;
+    sessionUnit = buildPracticeSession(unitQuestions, state.learnerLevel, state.selectedAge, SESSION_SIZE);
+  }
+  return sessionUnit;
+}
+
+export function currentUnitSession() {
+  return ensureUnitSession();
+}
 
 export function renderUnitTest() {
+  const items = ensureUnitSession();
   const progress = document.querySelector("#unit-progress-bar");
   const position = document.querySelector("#unit-position");
   const content = document.querySelector("#unit-content");
-  if (state.unitIndex >= unitQuestions.length) {
-    const mastery = state.unitScore >= Math.ceil(unitQuestions.length * 0.85) ? "掌握良好" : state.unitScore >= Math.ceil(unitQuestions.length * 0.6) ? "基本达标" : "建议复习";
+  if (state.unitIndex >= items.length) {
+    const mastery = state.unitScore >= Math.ceil(items.length * 0.85) ? "掌握良好" : state.unitScore >= Math.ceil(items.length * 0.6) ? "基本达标" : "建议复习";
     const best = Math.max(getNumber(KEYS.unitBest), state.unitScore);
     setNumber(KEYS.unitBest, best);
     recordWeekActivity(1);
     updateDashboard();
     progress.style.width = "100%";
     position.textContent = "单元测试完成";
-    content.innerHTML = `<div class="quiz-result"><div class="result-icon">${state.unitScore}/${unitQuestions.length}</div><h2>${mastery}</h2><p>本次答对 ${state.unitScore} / ${unitQuestions.length} 题。答错内容已经加入错题本，并按照间隔复习计划安排。</p><div class="assessment-result-actions"><button class="secondary-button" type="button" data-restart-unit>重新测试</button><button class="primary-button" type="button" data-open-review>查看错题本</button></div></div>`;
+    const levelHint = state.learnerLevel === "未测评" ? "按当前分龄" : `按 ${state.learnerLevel}`;
+    content.innerHTML = `<div class="quiz-result"><div class="result-icon">${state.unitScore}/${items.length}</div><h2>${mastery}</h2><p>本次答对 ${state.unitScore} / ${items.length} 题（${levelHint}抽题）。答错内容已经加入错题本，并按照间隔复习计划安排。</p><div class="assessment-result-actions"><button class="secondary-button" type="button" data-restart-unit>重新测试</button><button class="primary-button" type="button" data-open-review>查看错题本</button></div></div>`;
     document.querySelector("[data-restart-unit]").addEventListener("click", () => {
       state.unitIndex = 0;
       state.unitScore = 0;
       state.unitAnswered = false;
+      ensureUnitSession(true);
       renderUnitTest();
     });
     document.querySelector("[data-open-review]").addEventListener("click", () => document.querySelector('[data-practice-mode="review"]').click());
     return;
   }
-  const item = unitQuestions[state.unitIndex];
-  setBarProgress(progress, state.unitIndex, unitQuestions.length);
-  position.textContent = `问题 ${state.unitIndex + 1} / ${unitQuestions.length}`;
+  const item = items[state.unitIndex];
+  setBarProgress(progress, state.unitIndex, items.length);
+  position.textContent = `问题 ${state.unitIndex + 1} / ${items.length}`;
   state.unitAnswered = false;
   renderMultipleChoice({
     container: content,
-    tag: item.type,
+    tag: `${item.type} · ${item.level}`,
     question: item.question,
     options: item.options,
     answerAttr: ANSWER_ATTR,
@@ -48,7 +73,8 @@ export function renderUnitTest() {
 function answerUnitQuestion(answer) {
   if (state.unitAnswered) return;
   state.unitAnswered = true;
-  const item = unitQuestions[state.unitIndex];
+  const items = ensureUnitSession();
+  const item = items[state.unitIndex];
   const correct = answer === item.answer;
   markChoiceResult(ANSWER_ATTR, item.answer, answer);
   if (correct) state.unitScore += 1;
@@ -59,7 +85,7 @@ function answerUnitQuestion(answer) {
   showFeedbackNext(
     document.querySelector("#unit-feedback"),
     message,
-    `${state.unitIndex === unitQuestions.length - 1 ? "查看结果" : "下一题"} →`,
+    `${state.unitIndex === items.length - 1 ? "查看结果" : "下一题"} →`,
     () => {
       state.unitIndex += 1;
       renderUnitTest();
@@ -67,16 +93,23 @@ function answerUnitQuestion(answer) {
   );
 }
 
+export function showPracticeMode(mode) {
+  const tab = document.querySelector(`[data-practice-mode="${mode}"]`);
+  if (!tab) return;
+  document.querySelectorAll("[data-practice-mode]").forEach((item) => {
+    const active = item === tab;
+    item.classList.toggle("is-active", active);
+    item.setAttribute("aria-selected", String(active));
+  });
+  document.querySelectorAll("[data-practice-panel]").forEach((panel) => {
+    panel.classList.toggle("is-active", panel.dataset.practicePanel === mode);
+  });
+  refreshPracticePanel(mode);
+}
+
 export function initPracticeTabs() {
   document.querySelectorAll("[data-practice-mode]").forEach((button) => button.addEventListener("click", () => {
-    const mode = button.dataset.practiceMode;
-    document.querySelectorAll("[data-practice-mode]").forEach((tab) => {
-      const active = tab === button;
-      tab.classList.toggle("is-active", active);
-      tab.setAttribute("aria-selected", String(active));
-    });
-    document.querySelectorAll("[data-practice-panel]").forEach((panel) => panel.classList.toggle("is-active", panel.dataset.practicePanel === mode));
-    refreshPracticePanel(mode);
+    showPracticeMode(button.dataset.practiceMode);
   }));
 }
 
