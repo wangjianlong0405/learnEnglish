@@ -21,6 +21,8 @@ import {
   phoneticSymbols,
   phoneticMinimalPairs,
   phoneticById,
+  kidsCourseUnits,
+  adultCourseUnits,
 } from "../data/index.js";
 
 const appModules = [
@@ -42,6 +44,7 @@ const appModules = [
   "js/grammar-catalog.js",
   "js/phonetics-chart.js",
   "js/kids-voice.js",
+  "js/kids-units.js",
   "js/output-tips.js",
   "js/persist.js",
   "js/quiz-runner.js",
@@ -68,6 +71,8 @@ const requiredFiles = [
   "e2e/mistakes.spec.js",
   ".github/workflows/ci.yml",
   "data/index.js",
+  "data/kids-units.js",
+  "data/adult-units.js",
   ...appModules,
 ];
 
@@ -229,6 +234,44 @@ for (const age of Object.keys(agePrograms)) {
     }
   }
 }
+if (!Array.isArray(kidsCourseUnits) || kidsCourseUnits.length < 9) {
+  throw new Error("Expected at least nine structured kids course units");
+}
+const kidsAnswerPositions = new Set();
+for (const unit of kidsCourseUnits) {
+  if (!unit.id || unit.lessons?.length !== 5 || unit.story?.lines?.length < 8 || unit.questions?.length !== 5) {
+    throw new Error(`Kids unit is incomplete: ${unit.id || "(missing id)"}`);
+  }
+  if (!unit.phonics?.sounds?.length || unit.phonics?.examples?.length !== unit.phonics.sounds.length || !unit.phonics?.words?.length || !unit.output?.younger || !unit.output?.older || !unit.output?.model) {
+    throw new Error(`Kids unit phonics or differentiated output is incomplete: ${unit.id}`);
+  }
+  for (const question of unit.questions) {
+    if (!question.skill || !question.audio || question.options?.length !== 4 || !Number.isInteger(question.answer) || question.answer < 0 || question.answer > 3) {
+      throw new Error(`Kids unit question is invalid: ${unit.id}`);
+    }
+    kidsAnswerPositions.add(question.answer);
+  }
+}
+if (kidsAnswerPositions.size !== 4) {
+  throw new Error("Kids unit correct answers must cover all four option positions");
+}
+if (!Array.isArray(adultCourseUnits) || adultCourseUnits.length !== 4) {
+  throw new Error("Expected four adult A1-A2 course units");
+}
+const adultUnitLessons = adultCourseUnits.flatMap((unit) => unit.lessons || []);
+if (adultUnitLessons.length !== 20 || new Set(adultUnitLessons.map(([level, title]) => `${level}:${title}`)).size !== 20) {
+  throw new Error("Adult pathway must contain 20 unique courses");
+}
+for (const unit of adultCourseUnits) {
+  if (!unit.id || unit.lessons?.length !== 5 || !unit.task) {
+    throw new Error(`Adult unit is incomplete: ${unit.id || "(missing id)"}`);
+  }
+}
+for (const [level, title] of adultUnitLessons) {
+  if (!coursePacks[`${level}:${title}`]) {
+    throw new Error(`Adult pathway course pack is missing: ${level}:${title}`);
+  }
+}
 if (quiz.length < 24) throw new Error(`Expected at least 24 daily quiz items, found ${quiz.length}`);
 if (quiz.some((item) => !(item.level in LEVEL_RANK)) || unitQuestions.some((item) => !(item.level in LEVEL_RANK))) {
   throw new Error("Every quiz/unit question needs a CEFR level");
@@ -288,7 +331,7 @@ if (!swSource.includes("caches.open") || !appSource.includes("serviceWorker.regi
   throw new Error("PWA service worker registration is incomplete");
 }
 
-for (const asset of ["./data/phonetics.js", "./data/course-packs.js", "./js/phonetics-chart.js", "./js/kids-voice.js", "./js/output-tips.js"]) {
+for (const asset of ["./data/phonetics.js", "./data/course-packs.js", "./data/kids-units.js", "./data/adult-units.js", "./js/phonetics-chart.js", "./js/kids-voice.js", "./js/kids-units.js", "./js/output-tips.js"]) {
   if (!swSource.includes(`"${asset}"`)) {
     throw new Error(`Service worker precache missing ${asset}`);
   }

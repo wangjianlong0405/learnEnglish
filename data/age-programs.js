@@ -37,10 +37,10 @@ export const agePrograms = {
   },
   adults: {
     title: "成人实用英语",
-    level: "A2–B2 · 场景实用",
-    description: "聚焦旅行、职场和日常交流，用高频场景快速建立能直接使用的表达能力。",
+    level: "A1–A2 · 生活沟通",
+    description: "用 4 个递进主题单元完成日常沟通，从第一次见面到出行、计划和问题处理。",
     pace: ["20 分钟", "每日建议"],
-    goal: ["40+", "实用场景"],
+    goal: ["20 节", "主题课程"],
     modules: [
       { type: "vocabulary", icon: "💼", label: "词汇", title: "旅行与职场表达", description: "不孤立背词，重点学习会议、邮件、出行中的常用词块。", tags: ["Travel", "Meetings", "Email"], points: ["掌握机场与酒店表达", "学习会议高频词块", "写出礼貌的邮件开头"], example: "Could we move the meeting to Thursday afternoon?" },
       { type: "phonetics", icon: "🗣️", label: "音标", title: "清晰发音与英语节奏", description: "纠正常见发音问题，练习重音、节奏和礼貌语调。", tags: ["Clear sounds", "Rhythm", "Tone"], points: ["检查易混元辅音", "突出句子关键词", "练习自然停顿"], example: "I’d LIKE to BOOK a ROOM for TWO nights." },

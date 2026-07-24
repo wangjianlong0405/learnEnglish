@@ -3,6 +3,7 @@ export default {
   testDir: "./e2e",
   timeout: 30_000,
   fullyParallel: true,
+  workers: 2,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   use: {

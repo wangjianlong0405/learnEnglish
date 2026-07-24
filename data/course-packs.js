@@ -1,5 +1,185 @@
 /** Full lesson packs for curriculum courses. Key: `${level}:${title}`. */
+const adultCourseExtensions = {
+  "A1:认识新朋友": {
+    level: "A1", title: "认识新朋友", goal: "在第一次见面时交换名字、来源和一个日常话题。",
+    phrases: [
+      { en: "Hi, I’m Sam. What’s your name?", zh: "嗨，我是 Sam。你叫什么名字？" },
+      { en: "I’m from Taipei, but I work here.", zh: "我来自台北，不过在这里工作。" },
+      { en: "What do you do in your free time?", zh: "你空闲时做什么？" },
+      { en: "It was nice talking with you.", zh: "和你聊天很愉快。" },
+    ],
+    dialogue: [
+      { speaker: "Mia", en: "Hi, I’m Mia. Is this your first time here?", zh: "嗨，我是 Mia。你第一次来这里吗？" },
+      { speaker: "Leo", en: "Yes, it is. I’m Leo. Nice to meet you.", zh: "是的。我是 Leo，很高兴认识你。" },
+      { speaker: "Mia", en: "Nice to meet you, too. What do you do?", zh: "我也很高兴认识你。你做什么工作？" },
+      { speaker: "Leo", en: "I work in a bookstore. I enjoy meeting new people.", zh: "我在书店工作。我喜欢认识新朋友。" },
+    ],
+    keywords: ["friendly"],
+    questions: [
+      { question: "初次见面询问姓名，较自然的是：", options: ["What’s your name?", "Your name what?", "Name you?", "What name is?"], answer: 0, note: "What’s your name? 是基础且自然的问法。" },
+      { question: "“我来自台北”应说：", options: ["I am Taipei.", "I from Taipei.", "I’m from Taipei.", "Taipei from I."], answer: 2, note: "I’m from + 地点，用于说明来自哪里。" },
+      { question: "结束一段友好聊天时，可以说：", options: ["It was nice talking with you.", "You talk nice was.", "Nice talk yesterday.", "Talking you is."], answer: 0, note: "It was nice talking with you. 自然地结束初次交流。" },
+    ],
+    outputTask: "说或写 4 句：名字、来自哪里、做什么，以及一个空闲时喜欢做的事。",
+  },
+  "A1:安排一次见面": {
+    level: "A1", title: "安排一次见面", goal: "提出见面邀请，确认时间、地点与是否方便。",
+    phrases: [
+      { en: "Are you free on Saturday afternoon?", zh: "你周六下午有空吗？" },
+      { en: "Would you like to meet for coffee?", zh: "你想一起喝杯咖啡吗？" },
+      { en: "How about two o’clock at the station?", zh: "两点在车站怎么样？" },
+      { en: "That works for me.", zh: "这个时间我可以。" },
+    ],
+    dialogue: [
+      { speaker: "A", en: "Are you free on Saturday afternoon?", zh: "你周六下午有空吗？" },
+      { speaker: "B", en: "Yes, I think so. What’s up?", zh: "有空，应该可以。有什么事？" },
+      { speaker: "A", en: "Would you like to meet for coffee at two?", zh: "你想两点一起喝咖啡吗？" },
+      { speaker: "B", en: "Sure. The cafe near the station works for me.", zh: "好啊。车站附近的咖啡店我可以。" },
+    ],
+    keywords: ["today", "tomorrow"],
+    questions: [
+      { question: "询问对方是否有空，较自然的是：", options: ["Are you free on Saturday?", "You free Saturday?", "Saturday you are free?", "Free is Saturday?"], answer: 0, note: "Are you free...? 可礼貌地询问时间是否方便。" },
+      { question: "“两点怎么样？”应说：", options: ["How two o’clock?", "What two o’clock?", "How about two o’clock?", "Two o’clock how is?"], answer: 2, note: "How about + 时间/名词？用于提出建议。" },
+      { question: "That works for me 的意思是：", options: ["这对我有用。", "这个时间我可以。", "我在工作。", "请为我工作。"], answer: 1, note: "That works for me. 表示这个安排适合自己。" },
+    ],
+    outputTask: "写一段 4 句邀约：询问是否有空、提出活动、给出时间地点、确认安排。",
+  },
+  "A1:在酒店办理入住": {
+    level: "A1", title: "在酒店办理入住", goal: "说明预订信息，并提出一项简单入住需求。",
+    phrases: [
+      { en: "I have a reservation under Chen.", zh: "我用 Chen 这个名字预订了。" },
+      { en: "I’d like to check in, please.", zh: "我想办理入住。" },
+      { en: "Is breakfast included?", zh: "包含早餐吗？" },
+      { en: "Could I have the Wi-Fi password?", zh: "可以告诉我 Wi-Fi 密码吗？" },
+    ],
+    dialogue: [
+      { speaker: "Clerk", en: "Good evening. How can I help you?", zh: "晚上好。有什么可以帮您？" },
+      { speaker: "You", en: "Hi, I’d like to check in. I have a reservation under Chen.", zh: "你好，我想办理入住。我用 Chen 这个名字预订了。" },
+      { speaker: "Clerk", en: "Yes, I found it. You’re staying for two nights.", zh: "好的，我找到了。您住两晚。" },
+      { speaker: "You", en: "Great. Is breakfast included?", zh: "太好了。包含早餐吗？" },
+    ],
+    keywords: ["reservation"],
+    questions: [
+      { question: "办理入住时，较自然的是：", options: ["I’d like to check in, please.", "I check in now hotel.", "Give me check in.", "Hotel check I."], answer: 0, note: "I’d like to check in, please. 是礼貌的入住表达。" },
+      { question: "reservation 的意思是：", options: ["护照", "预订", "行李", "收据"], answer: 1, note: "reservation 指预订的房间、餐位或服务。" },
+      { question: "询问早餐是否包含，应说：", options: ["Breakfast is include?", "Is breakfast included?", "Breakfast included is?", "Include breakfast you?"], answer: 1, note: "Is ... included? 用于确认是否包含在费用内。" },
+    ],
+    outputTask: "写 3–4 句入住对话：说明姓名预订、入住晚数，并询问一项服务。",
+  },
+  "A1:问路与搭乘交通": {
+    level: "A1", title: "问路与搭乘交通", goal: "问清站点、线路和下一步应该怎么走。",
+    phrases: [
+      { en: "Excuse me, where is the subway station?", zh: "不好意思，地铁站在哪里？" },
+      { en: "Which bus goes to the museum?", zh: "哪路公交车去博物馆？" },
+      { en: "Get off at the next stop.", zh: "下一站下车。" },
+      { en: "How long does it take?", zh: "要花多长时间？" },
+    ],
+    dialogue: [
+      { speaker: "You", en: "Excuse me, which bus goes to the museum?", zh: "不好意思，哪路公交车去博物馆？" },
+      { speaker: "Local", en: "Take the number 12. The stop is across the street.", zh: "坐 12 路。车站在马路对面。" },
+      { speaker: "You", en: "Thank you. How long does it take?", zh: "谢谢。要花多长时间？" },
+      { speaker: "Local", en: "About fifteen minutes. Get off at the third stop.", zh: "大约十五分钟。第三站下车。" },
+    ],
+    keywords: ["help"],
+    questions: [
+      { question: "询问去博物馆的公交车，应说：", options: ["Which bus goes to the museum?", "What bus museum?", "Bus goes museum which?", "Museum bus where?"], answer: 0, note: "Which bus goes to...? 可询问线路。" },
+      { question: "Get off at the next stop 的意思是：", options: ["下一站上车。", "下一站下车。", "在车站等候。", "不要坐这一站。"], answer: 1, note: "get off 表示下车；get on 表示上车。" },
+      { question: "询问时长，正确的是：", options: ["How long does it take?", "How time it take?", "How long takes?", "It takes how?"], answer: 0, note: "How long does it take? 是询问耗时的常用句型。" },
+    ],
+    outputTask: "说或写一段问路对话：问站点或线路、确认要坐哪一班、确认下车地点。",
+  },
+  "A1:描述熟悉的人": {
+    level: "A1", title: "描述熟悉的人", goal: "用简单、尊重的句子介绍一个人的外表、性格和习惯。",
+    phrases: [
+      { en: "My friend is tall and friendly.", zh: "我的朋友很高，也很友好。" },
+      { en: "She has short black hair.", zh: "她留着黑色短发。" },
+      { en: "He is good at listening to people.", zh: "他很善于倾听别人。" },
+      { en: "We often have lunch together.", zh: "我们经常一起吃午饭。" },
+    ],
+    dialogue: [
+      { speaker: "A", en: "Who is the person in this photo?", zh: "照片里的这个人是谁？" },
+      { speaker: "B", en: "She’s my friend, Nina. She has short black hair.", zh: "她是我的朋友 Nina。她留着黑色短发。" },
+      { speaker: "A", en: "What is she like?", zh: "她是什么样的人？" },
+      { speaker: "B", en: "She’s friendly and very good at listening.", zh: "她很友好，也非常善于倾听。" },
+    ],
+    keywords: ["friendly"],
+    questions: [
+      { question: "描述外貌，较自然的是：", options: ["She has short black hair.", "She is short black hair.", "Her has hair short.", "Short hair she."], answer: 0, note: "have/has + 头发、眼睛等特征，可描述外貌。" },
+      { question: "询问一个人的性格或特点，可以说：", options: ["What is she like?", "What she likes?", "How she person?", "Who is like she?"], answer: 0, note: "What is ... like? 用于询问人的特点。" },
+      { question: "He is good at listening 的意思是：", options: ["他听力很好。", "他善于倾听。", "他正在听。", "他喜欢音乐。"], answer: 1, note: "be good at + 动名词，表示擅长某事。" },
+    ],
+    outputTask: "说或写 4 句介绍熟悉的人：关系、一个外表特征、一个性格特点和一件常一起做的事。",
+  },
+  "A2:确认旅行安排": {
+    level: "A2", title: "确认旅行安排", goal: "核对出发时间、地点、行李和变动信息。",
+    phrases: [
+      { en: "Could you confirm the departure time?", zh: "可以确认一下出发时间吗？" },
+      { en: "The train leaves from platform six.", zh: "火车从 6 号站台出发。" },
+      { en: "I only have carry-on luggage.", zh: "我只有随身行李。" },
+      { en: "Please let me know if anything changes.", zh: "如果有变动，请告诉我。" },
+    ],
+    dialogue: [
+      { speaker: "A", en: "Could you confirm the departure time for tomorrow?", zh: "可以确认一下明天的出发时间吗？" },
+      { speaker: "B", en: "Sure. The train leaves at 8:40 from platform six.", zh: "当然。火车 8:40 从 6 号站台出发。" },
+      { speaker: "A", en: "Thanks. Do I need to check in my bag?", zh: "谢谢。我需要托运行李吗？" },
+      { speaker: "B", en: "No, your carry-on bag is fine.", zh: "不需要，您的随身包可以。" },
+    ],
+    keywords: ["confirm"],
+    questions: [
+      { question: "确认出发时间，较自然的是：", options: ["Could you confirm the departure time?", "Departure time confirm now.", "You departure confirm?", "Time leaves what?"], answer: 0, note: "Could you confirm...? 礼貌地请求核对信息。" },
+      { question: "platform six 指：", options: ["第六节车厢", "6 号站台", "六点钟", "第六张票"], answer: 1, note: "platform 是火车站的站台。" },
+      { question: "如果有变化，请通知我：", options: ["Please know me changes.", "Let changes know.", "Please let me know if anything changes.", "Anything changes I know."], answer: 2, note: "let me know 表示通知我、告诉我。" },
+    ],
+    outputTask: "写 4 句出行确认：日期时间、出发地点、一件行李信息，以及变动时如何联系。",
+  },
+  "A2:制定周末计划": {
+    level: "A2", title: "制定周末计划", goal: "提出周末安排、回应邀请，并说明自己的偏好。",
+    phrases: [
+      { en: "Do you have any plans for the weekend?", zh: "你周末有什么计划吗？" },
+      { en: "I was thinking of visiting the art museum.", zh: "我在想去参观艺术博物馆。" },
+      { en: "That sounds good, but I’d rather go on Sunday.", zh: "听起来不错，不过我更想周日去。" },
+      { en: "Let’s decide by Friday.", zh: "我们周五前决定吧。" },
+    ],
+    dialogue: [
+      { speaker: "A", en: "Do you have any plans for the weekend?", zh: "你周末有什么计划吗？" },
+      { speaker: "B", en: "Not yet. I was thinking of visiting the art museum.", zh: "还没有。我在想去参观艺术博物馆。" },
+      { speaker: "A", en: "That sounds good. Would Saturday work?", zh: "听起来不错。周六可以吗？" },
+      { speaker: "B", en: "I’d rather go on Sunday, if that’s okay.", zh: "如果可以，我更想周日去。" },
+    ],
+    keywords: ["today", "tomorrow"],
+    questions: [
+      { question: "询问周末计划，正确的是：", options: ["Do you have any plans for the weekend?", "You have weekend plan?", "Weekend plans are you?", "Do plans weekend?"], answer: 0, note: "Do you have any plans for...? 是自然的计划询问。" },
+      { question: "I’d rather go on Sunday 表示：", options: ["我必须周日去。", "我以前周日去过。", "我更想周日去。", "我不想周日去。"], answer: 2, note: "would rather 表示偏好。" },
+      { question: "“周五前决定”应选：", options: ["Let’s decide by Friday.", "Let’s Friday decide at.", "Friday decides us.", "We decide Friday is."], answer: 0, note: "by Friday 表示不晚于周五。" },
+    ],
+    outputTask: "写一段 4–5 句周末协商：问计划、提建议、表达偏好、确定决定时间。",
+  },
+  "A2:处理简单服务问题": {
+    level: "A2", title: "处理简单服务问题", goal: "礼貌说明问题、提出所需帮助，并确认处理结果。",
+    phrases: [
+      { en: "There seems to be a problem with my order.", zh: "我的订单似乎有点问题。" },
+      { en: "I ordered the vegetarian meal.", zh: "我点的是素食餐。" },
+      { en: "Could you check that for me, please?", zh: "可以帮我查一下吗？" },
+      { en: "Thank you for sorting it out.", zh: "谢谢您帮我解决。" },
+    ],
+    dialogue: [
+      { speaker: "You", en: "Excuse me, there seems to be a problem with my order.", zh: "不好意思，我的订单似乎有点问题。" },
+      { speaker: "Staff", en: "I’m sorry about that. What did you order?", zh: "很抱歉。您点了什么？" },
+      { speaker: "You", en: "I ordered the vegetarian meal, but this has chicken.", zh: "我点的是素食餐，但这个有鸡肉。" },
+      { speaker: "Staff", en: "I understand. I’ll replace it right away.", zh: "我明白。我马上为您更换。" },
+    ],
+    keywords: ["help"],
+    questions: [
+      { question: "礼貌说明订单问题，较自然的是：", options: ["Order bad.", "There seems to be a problem with my order.", "My order is problem you.", "Problem order now."], answer: 1, note: "There seems to be a problem with... 语气礼貌且清楚。" },
+      { question: "I’ll replace it right away 的意思是：", options: ["我会马上替换它。", "我会立刻退钱。", "我不会处理。", "我已订购它。"], answer: 0, note: "replace 表示更换；right away 表示马上。" },
+      { question: "感谢对方解决问题，可以说：", options: ["Thanks sorting it out.", "Thank you for sorting it out.", "You sort thanks.", "Problem thank you is."], answer: 1, note: "Thank you for + 动名词，可感谢对方做过的事。" },
+    ],
+    outputTask: "完成本单元真实听说任务：录一段 60 秒语音，说明服务问题、提出请求，并复述得到的解决方式。",
+  },
+};
+
 export const coursePacks = {
+  ...adultCourseExtensions,
   "A2:打招呼与自我介绍": {
     "level": "A2",
     "title": "打招呼与自我介绍",

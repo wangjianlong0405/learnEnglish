@@ -1,4 +1,4 @@
-const CACHE_NAME = "lingua-static-v5";
+const CACHE_NAME = "lingua-static-v7";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -27,6 +27,7 @@ const PRECACHE_URLS = [
   "./js/grammar-catalog.js",
   "./js/phonetics-chart.js",
   "./js/kids-voice.js",
+  "./js/kids-units.js",
   "./js/output-tips.js",
   "./js/persist.js",
   "./js/quiz-runner.js",
@@ -37,6 +38,8 @@ const PRECACHE_URLS = [
   "./data/curriculum.js",
   "./data/course-packs.js",
   "./data/age-programs.js",
+  "./data/kids-units.js",
+  "./data/adult-units.js",
   "./data/assessment.js",
   "./data/skills.js",
   "./data/practice.js",

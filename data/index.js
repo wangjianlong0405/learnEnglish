@@ -2,6 +2,8 @@ export { words, LEVEL_RANK, AGE_LEVELS, activeWordDeck } from "./words.js";
 export { courses, levelStandards, levelRecommendations } from "./curriculum.js";
 export { coursePacks, getCoursePack } from "./course-packs.js";
 export { agePrograms, lessonChecks, lessonOutputTasks } from "./age-programs.js";
+export { kidsCourseUnits, kidsUnitById } from "./kids-units.js";
+export { adultCourseUnits, adultUnitById } from "./adult-units.js";
 export { placementQuestions, recommendPlacementLevel } from "./assessment.js";
 export { skillMaterials, skillTierForLevel, skillItemList } from "./skills.js";
 export { unitQuestions, quiz, buildPracticeSession, filterPracticeByLevel } from "./practice.js";

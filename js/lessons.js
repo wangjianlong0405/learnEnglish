@@ -1,4 +1,4 @@
-import { courses, levelStandards, agePrograms, lessonChecks, lessonOutputTasks, getCoursePack } from "../data/index.js";
+import { courses, levelStandards, agePrograms, lessonChecks, lessonOutputTasks, getCoursePack, adultCourseUnits } from "../data/index.js";
 import { state } from "./state.js";
 import { showToast, speak, speakSequence, bindSpeakable, speakable, voiceChip, stopSpeaking, looksChinese } from "./ui.js";
 import { showView } from "./router.js";
@@ -9,6 +9,7 @@ import { syncAllTablists } from "./tabs.js";
 import { syncKidsModeUi } from "./kids-voice.js";
 import { renderWord } from "./word-review.js";
 import { escapeHtml } from "./utils.js";
+import { renderKidsCoursePath } from "./kids-units.js";
 
 /** In-progress multi-step lesson session. */
 const lessonSession = {
@@ -77,6 +78,21 @@ export function renderCourses(level = "A2") {
     <article class="knowledge-node ${index === 0 ? "is-current" : ""}">
       <span>${String(index + 1).padStart(2, "0")}</span><div><h3>${title}</h3><p>${description}</p></div>
     </article>`).join("");
+  const adultPath = document.querySelector("#adult-course-path");
+  const showAdultPath = state.selectedAge === "adults";
+  adultPath.hidden = !showAdultPath;
+  adultPath.innerHTML = showAdultPath ? `
+    <header class="adult-course-path-header">
+      <div><span class="section-number">A1-A2 PATHWAY</span><h2>4 个主题单元 · 20 节递进课</h2><p>每个单元的最后一节收束为一次真实听说任务。</p></div>
+      <span>约 250 个主动词块</span>
+    </header>
+    <div class="adult-unit-grid">${adultCourseUnits.map((unit, index) => `
+      <article class="adult-unit-card">
+        <div class="adult-unit-heading"><span>${String(index + 1).padStart(2, "0")}</span><div><small>${unit.level}</small><h3>${unit.title}</h3><p>${unit.subtitle} · ${unit.goal}</p></div></div>
+        <ol>${unit.lessons.map(([courseLevel, title], lessonIndex) => `
+          <li><button type="button" data-adult-course-level="${courseLevel}" data-adult-course-title="${title}"><span>${lessonIndex + 1}</span>${title}${lessonIndex === unit.lessons.length - 1 ? "<em>真实任务</em>" : ""}</button></li>`).join("")}</ol>
+        <p class="adult-unit-task"><strong>单元任务</strong>${unit.task}</p>
+      </article>`).join("")}</div>` : "";
   document.querySelector("#course-list").innerHTML = courses[level].map(([title, description], index) => {
     const pack = getCoursePack(level, title);
     return `
@@ -90,9 +106,7 @@ export function renderCourses(level = "A2") {
     </article>`;
   }).join("");
 
-  document.querySelectorAll("[data-course-title]").forEach((button) => button.addEventListener("click", () => {
-    const courseLevel = button.dataset.courseLevel;
-    const courseTitle = button.dataset.courseTitle;
+  const openCourse = (courseLevel, courseTitle) => {
     const pack = getCoursePack(courseLevel, courseTitle);
     if (pack) {
       renderCoursePack(pack);
@@ -107,7 +121,9 @@ export function renderCourses(level = "A2") {
     renderAgeProgram();
     showView("learning");
     showToast(`已按 ${courseLevel} 难度打开“${courseTitle}”相关内容`);
-  }));
+  };
+  document.querySelectorAll("[data-course-title]").forEach((button) => button.addEventListener("click", () => openCourse(button.dataset.courseLevel, button.dataset.courseTitle)));
+  document.querySelectorAll("[data-adult-course-title]").forEach((button) => button.addEventListener("click", () => openCourse(button.dataset.adultCourseLevel, button.dataset.adultCourseTitle)));
 }
 
 function renderCoursePack(pack) {
@@ -297,6 +313,7 @@ export function renderAgeProgram() {
   }).join("");
 
   document.querySelector("#lesson-preview").classList.remove("is-visible");
+  renderKidsCoursePath(kids && state.selectedTopic === "all");
   document.querySelectorAll("[data-module]").forEach((button) => button.addEventListener("click", () => startLesson(button.dataset.module)));
   document.querySelectorAll("[data-listen-module]").forEach((button) => button.addEventListener("click", () => {
     const module = moduleMeta(button.dataset.listenModule);
