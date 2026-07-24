@@ -3,16 +3,24 @@ import { state } from "./state.js";
 import { showToast } from "./ui.js";
 import { showView } from "./router.js";
 import { updateDashboard, recordWeekActivity } from "./dashboard.js";
-import { syncRecommendedCourseLevel } from "./lessons.js";
+import { syncRecommendedCourseLevel, renderAgeProgram } from "./lessons.js";
 import { renderSkillPanels } from "./skills.js";
 import { renderWord } from "./word-review.js";
 import { KEYS, setString } from "./persist.js";
 import { bindChoiceButtons, markChoiceResult, renderMultipleChoice, setBarProgress, showFeedbackNext } from "./quiz-runner.js";
 import { escapeHtml } from "./utils.js";
+import { queuePreschoolOpen, recommendedPreschoolUnitId } from "./preschool.js";
 
 const ANSWER_ATTR = "quiz-placement-answer";
 
 export function startAssessment() {
+  if (state.selectedAge === "preschool") {
+    queuePreschoolOpen(recommendedPreschoolUnitId());
+    showView("learning");
+    renderAgeProgram();
+    showToast("4–6 岁幼儿课程无需水平测试，已打开今日推荐游戏");
+    return;
+  }
   state.placementIndex = 0;
   state.placementScore = 0;
   state.placementAnswered = false;
@@ -96,7 +104,13 @@ function answerAssessment(answer) {
 export function initPlacement() {
   document.querySelectorAll("[data-start-assessment]:not(#personal-path-action)").forEach((button) => button.addEventListener("click", startAssessment));
   document.querySelector("#personal-path-action").addEventListener("click", () => {
-    if (state.learnerLevel === "未测评") startAssessment();
+    if (state.selectedAge === "preschool") {
+      queuePreschoolOpen(recommendedPreschoolUnitId());
+      showView("learning");
+      renderAgeProgram();
+      return;
+    }
+    else if (state.learnerLevel === "未测评") startAssessment();
     else {
       syncRecommendedCourseLevel();
       showView("lessons");

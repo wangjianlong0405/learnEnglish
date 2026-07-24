@@ -14,7 +14,7 @@ function deckLabel() {
   if (state.learnerLevel in { "Pre-A1": 1, A1: 1, A2: 1, B1: 1, B2: 1 }) {
     return `当前词库：≤ ${state.learnerLevel}（${deck().length} 词）`;
   }
-  const ageNames = { kids: "少儿启蒙", teens: "青少年", exam: "考试进阶", adults: "成人实用" };
+  const ageNames = { preschool: "幼儿启蒙", kids: "少儿启蒙", teens: "青少年", exam: "考试进阶", adults: "成人实用" };
   return `当前词库：${ageNames[state.selectedAge] || "分龄"}（${deck().length} 词）`;
 }
 

@@ -8,6 +8,9 @@ export const LEVEL_RANK = {
 };
 
 export const AGE_LEVELS = {
+  "preschool": [
+    "Pre-A1"
+  ],
   "kids": [
     "Pre-A1",
     "A1"
@@ -2255,5 +2258,455 @@ export const words = [
     "tags": [
       "exam"
     ]
+  },
+  {
+    "word": "angry",
+    "phonetic": "/ˈæŋɡri/",
+    "meaning": "生气的",
+    "example": "He felt angry when his toy broke.",
+    "translation": "玩具坏了时他很生气。",
+    "level": "Pre-A1",
+    "theme": "feelings",
+    "tags": ["kids", "preschool"]
+  },
+  {
+    "word": "scared",
+    "phonetic": "/skerd/",
+    "meaning": "害怕的",
+    "example": "The little girl was scared of the dark.",
+    "translation": "小女孩害怕黑暗。",
+    "level": "Pre-A1",
+    "theme": "feelings",
+    "tags": ["kids", "preschool"]
+  },
+  {
+    "word": "excited",
+    "phonetic": "/ɪkˈsaɪtɪd/",
+    "meaning": "兴奋的",
+    "example": "I am excited about my birthday party.",
+    "translation": "我对生日派对感到兴奋。",
+    "level": "A1",
+    "theme": "feelings",
+    "tags": ["kids"]
+  },
+  {
+    "word": "bored",
+    "phonetic": "/bɔːrd/",
+    "meaning": "无聊的",
+    "example": "She feels bored when it rains all day.",
+    "translation": "整天下雨时她觉得无聊。",
+    "level": "A1",
+    "theme": "feelings",
+    "tags": ["kids"]
+  },
+  {
+    "word": "proud",
+    "phonetic": "/praʊd/",
+    "meaning": "骄傲的；自豪的",
+    "example": "Mom is proud of my drawing.",
+    "translation": "妈妈为我的画感到自豪。",
+    "level": "A1",
+    "theme": "feelings",
+    "tags": ["kids"]
+  },
+  {
+    "word": "worried",
+    "phonetic": "/ˈwɜːrid/",
+    "meaning": "担心的",
+    "example": "I was worried about the test.",
+    "translation": "我担心这次考试。",
+    "level": "A2",
+    "theme": "feelings",
+    "tags": ["teens"]
+  },
+  {
+    "word": "library",
+    "phonetic": "/ˈlaɪbreri/",
+    "meaning": "图书馆",
+    "example": "We read books in the library.",
+    "translation": "我们在图书馆看书。",
+    "level": "A1",
+    "theme": "places",
+    "tags": ["kids", "school"]
+  },
+  {
+    "word": "hospital",
+    "phonetic": "/ˈhɑːspɪtl/",
+    "meaning": "医院",
+    "example": "Dad works at the hospital.",
+    "translation": "爸爸在医院工作。",
+    "level": "A1",
+    "theme": "places",
+    "tags": ["kids"]
+  },
+  {
+    "word": "supermarket",
+    "phonetic": "/ˈsuːpərmɑːrkɪt/",
+    "meaning": "超市",
+    "example": "We buy fruit at the supermarket.",
+    "translation": "我们在超市买水果。",
+    "level": "A1",
+    "theme": "places",
+    "tags": ["daily"]
+  },
+  {
+    "word": "museum",
+    "phonetic": "/mjuˈziːəm/",
+    "meaning": "博物馆",
+    "example": "The class visited a science museum.",
+    "translation": "全班参观了科学博物馆。",
+    "level": "A2",
+    "theme": "places",
+    "tags": ["teens"]
+  },
+  {
+    "word": "station",
+    "phonetic": "/ˈsteɪʃn/",
+    "meaning": "车站",
+    "example": "Meet me at the train station.",
+    "translation": "在火车站见我。",
+    "level": "A2",
+    "theme": "places",
+    "tags": ["travel"]
+  },
+  {
+    "word": "airport",
+    "phonetic": "/ˈerpɔːrt/",
+    "meaning": "机场",
+    "example": "We arrived at the airport early.",
+    "translation": "我们很早就到了机场。",
+    "level": "A2",
+    "theme": "places",
+    "tags": ["travel"]
+  },
+  {
+    "word": "beach",
+    "phonetic": "/biːtʃ/",
+    "meaning": "海滩",
+    "example": "Children play on the beach in summer.",
+    "translation": "夏天孩子们在海滩玩耍。",
+    "level": "A1",
+    "theme": "places",
+    "tags": ["kids"]
+  },
+  {
+    "word": "fever",
+    "phonetic": "/ˈfiːvər/",
+    "meaning": "发烧",
+    "example": "She stayed home because she had a fever.",
+    "translation": "她因为发烧待在家里。",
+    "level": "A2",
+    "theme": "health",
+    "tags": ["daily"]
+  },
+  {
+    "word": "cough",
+    "phonetic": "/kɔːf/",
+    "meaning": "咳嗽",
+    "example": "Drink warm water if you have a cough.",
+    "translation": "如果你咳嗽，喝点温水。",
+    "level": "A2",
+    "theme": "health",
+    "tags": ["daily"]
+  },
+  {
+    "word": "medicine",
+    "phonetic": "/ˈmedɪsn/",
+    "meaning": "药",
+    "example": "Take this medicine after meals.",
+    "translation": "饭后服用这种药。",
+    "level": "A2",
+    "theme": "health",
+    "tags": ["daily"]
+  },
+  {
+    "word": "healthy",
+    "phonetic": "/ˈhelθi/",
+    "meaning": "健康的",
+    "example": "Eating vegetables helps you stay healthy.",
+    "translation": "吃蔬菜有助于保持健康。",
+    "level": "A1",
+    "theme": "health",
+    "tags": ["kids"]
+  },
+  {
+    "word": "exercise",
+    "phonetic": "/ˈeksərsaɪz/",
+    "meaning": "锻炼；运动",
+    "example": "I exercise for thirty minutes every day.",
+    "translation": "我每天锻炼三十分钟。",
+    "level": "A2",
+    "theme": "health",
+    "tags": ["daily"]
+  },
+  {
+    "word": "app",
+    "phonetic": "/æp/",
+    "meaning": "应用程序",
+    "example": "This app helps me practise English.",
+    "translation": "这个应用帮我练习英语。",
+    "level": "A2",
+    "theme": "tech",
+    "tags": ["study"]
+  },
+  {
+    "word": "download",
+    "phonetic": "/ˈdaʊnloʊd/",
+    "meaning": "下载",
+    "example": "Please download the worksheet before class.",
+    "translation": "上课前请下载这份练习单。",
+    "level": "A2",
+    "theme": "tech",
+    "tags": ["study"]
+  },
+  {
+    "word": "update",
+    "phonetic": "/ʌpˈdeɪt/",
+    "meaning": "更新",
+    "example": "Update the app to fix the bug.",
+    "translation": "更新应用以修复这个错误。",
+    "level": "B1",
+    "theme": "tech",
+    "tags": ["daily"]
+  },
+  {
+    "word": "screen",
+    "phonetic": "/skriːn/",
+    "meaning": "屏幕",
+    "example": "Too much screen time can hurt your eyes.",
+    "translation": "过久盯着屏幕可能伤害眼睛。",
+    "level": "A2",
+    "theme": "tech",
+    "tags": ["daily"]
+  },
+  {
+    "word": "battery",
+    "phonetic": "/ˈbætəri/",
+    "meaning": "电池",
+    "example": "My phone battery is low.",
+    "translation": "我的手机电量低了。",
+    "level": "A2",
+    "theme": "tech",
+    "tags": ["daily"]
+  },
+  {
+    "word": "privacy",
+    "phonetic": "/ˈpraɪvəsi/",
+    "meaning": "隐私",
+    "example": "Never share passwords if you care about privacy.",
+    "translation": "如果在意隐私，就不要分享密码。",
+    "level": "B1",
+    "theme": "tech",
+    "tags": ["exam"]
+  },
+  {
+    "word": "nose",
+    "phonetic": "/noʊz/",
+    "meaning": "鼻子",
+    "example": "Touch your nose with your finger.",
+    "translation": "用手指摸摸你的鼻子。",
+    "level": "Pre-A1",
+    "theme": "body",
+    "tags": ["preschool", "kids"]
+  },
+  {
+    "word": "mouth",
+    "phonetic": "/maʊθ/",
+    "meaning": "嘴巴",
+    "example": "Open your mouth and say ah.",
+    "translation": "张开嘴巴说啊。",
+    "level": "Pre-A1",
+    "theme": "body",
+    "tags": ["preschool", "kids"]
+  },
+  {
+    "word": "foot",
+    "phonetic": "/fʊt/",
+    "meaning": "脚",
+    "example": "I hurt my foot while running.",
+    "translation": "我跑步时伤到了脚。",
+    "level": "Pre-A1",
+    "theme": "body",
+    "tags": ["kids"]
+  },
+  {
+    "word": "arm",
+    "phonetic": "/ɑːrm/",
+    "meaning": "手臂",
+    "example": "Raise your arm and wave hello.",
+    "translation": "举起手臂挥手问好。",
+    "level": "Pre-A1",
+    "theme": "body",
+    "tags": ["kids"]
+  },
+  {
+    "word": "hat",
+    "phonetic": "/hæt/",
+    "meaning": "帽子",
+    "example": "Put on your hat when it is sunny.",
+    "translation": "天晴时戴上帽子。",
+    "level": "Pre-A1",
+    "theme": "clothes",
+    "tags": ["preschool", "kids"]
+  },
+  {
+    "word": "coat",
+    "phonetic": "/koʊt/",
+    "meaning": "外套",
+    "example": "Wear a warm coat in winter.",
+    "translation": "冬天穿暖和的外套。",
+    "level": "Pre-A1",
+    "theme": "clothes",
+    "tags": ["preschool", "kids"]
+  },
+  {
+    "word": "socks",
+    "phonetic": "/sɑːks/",
+    "meaning": "袜子",
+    "example": "These socks are soft and warm.",
+    "translation": "这双袜子又软又暖。",
+    "level": "Pre-A1",
+    "theme": "clothes",
+    "tags": ["preschool", "kids"]
+  },
+  {
+    "word": "dress",
+    "phonetic": "/dres/",
+    "meaning": "连衣裙",
+    "example": "She wore a red dress to the party.",
+    "translation": "她穿红色连衣裙去派对。",
+    "level": "A1",
+    "theme": "clothes",
+    "tags": ["kids"]
+  },
+  {
+    "word": "pants",
+    "phonetic": "/pænts/",
+    "meaning": "裤子",
+    "example": "My blue pants are in the bag.",
+    "translation": "我的蓝色裤子在书包里。",
+    "level": "A1",
+    "theme": "clothes",
+    "tags": ["kids"]
+  },
+  {
+    "word": "elaborate",
+    "phonetic": "/ɪˈlæbəreɪt/",
+    "meaning": "详细说明",
+    "example": "Could you elaborate on your main point?",
+    "translation": "你能详细说明一下你的主要观点吗？",
+    "level": "B2",
+    "theme": "academic",
+    "tags": ["exam"]
+  },
+  {
+    "word": "hypothesis",
+    "phonetic": "/haɪˈpɑːθəsɪs/",
+    "meaning": "假设",
+    "example": "We tested the hypothesis with a simple experiment.",
+    "translation": "我们用一个简单实验检验了这个假设。",
+    "level": "B2",
+    "theme": "academic",
+    "tags": ["exam"]
+  },
+  {
+    "word": "evaluate",
+    "phonetic": "/ɪˈvæljueɪt/",
+    "meaning": "评估",
+    "example": "Teachers evaluate essays with a clear rubric.",
+    "translation": "老师用清晰的评分标准评估作文。",
+    "level": "B2",
+    "theme": "academic",
+    "tags": ["exam"]
+  },
+  {
+    "word": "imply",
+    "phonetic": "/ɪmˈplaɪ/",
+    "meaning": "暗示；意味着",
+    "example": "His silence may imply disagreement.",
+    "translation": "他的沉默可能意味着不同意。",
+    "level": "B2",
+    "theme": "academic",
+    "tags": ["exam"]
+  },
+  {
+    "word": "coherent",
+    "phonetic": "/koʊˈhɪrənt/",
+    "meaning": "条理清晰的",
+    "example": "A coherent essay connects ideas smoothly.",
+    "translation": "条理清晰的文章能把观点顺畅连接起来。",
+    "level": "B2",
+    "theme": "study",
+    "tags": ["exam"]
+  },
+  {
+    "word": "resilient",
+    "phonetic": "/rɪˈzɪliənt/",
+    "meaning": "有韧性的",
+    "example": "Resilient learners recover quickly after mistakes.",
+    "translation": "有韧性的学习者在犯错后能很快恢复。",
+    "level": "B2",
+    "theme": "study",
+    "tags": ["exam"]
+  },
+  {
+    "word": "advocate",
+    "phonetic": "/ˈædvəkeɪt/",
+    "meaning": "倡导；支持",
+    "example": "Many teachers advocate daily reading habits.",
+    "translation": "许多老师倡导每日阅读习惯。",
+    "level": "B2",
+    "theme": "social",
+    "tags": ["exam"]
+  },
+  {
+    "word": "allocate",
+    "phonetic": "/ˈæləkeɪt/",
+    "meaning": "分配",
+    "example": "Allocate twenty minutes each day to listening practice.",
+    "translation": "每天分配二十分钟做听力练习。",
+    "level": "B2",
+    "theme": "work",
+    "tags": ["adults"]
+  },
+  {
+    "word": "sustain",
+    "phonetic": "/səˈsteɪn/",
+    "meaning": "维持；支撑",
+    "example": "Short daily sessions help sustain motivation.",
+    "translation": "每天短时练习有助于维持动机。",
+    "level": "B2",
+    "theme": "study",
+    "tags": ["exam"]
+  },
+  {
+    "word": "pragmatic",
+    "phonetic": "/præɡˈmætɪk/",
+    "meaning": "务实的",
+    "example": "A pragmatic plan focuses on the next useful step.",
+    "translation": "务实的计划聚焦下一步真正有用的动作。",
+    "level": "B2",
+    "theme": "work",
+    "tags": ["adults"]
+  },
+  {
+    "word": "articulate",
+    "phonetic": "/ɑːrˈtɪkjuleɪt/",
+    "meaning": "清楚表达",
+    "example": "She can articulate complex ideas in simple English.",
+    "translation": "她能用简单英语清楚表达复杂想法。",
+    "level": "B2",
+    "theme": "social",
+    "tags": ["exam"]
+  },
+  {
+    "word": "contradictory",
+    "phonetic": "/ˌkɑːntrəˈdɪktəri/",
+    "meaning": "相互矛盾的",
+    "example": "The two reports give contradictory advice.",
+    "translation": "两份报告给出了相互矛盾的建议。",
+    "level": "B2",
+    "theme": "academic",
+    "tags": ["exam"]
   }
 ];

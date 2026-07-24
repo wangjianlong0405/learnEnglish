@@ -25,6 +25,14 @@ export const skillMaterials = {
         answer: 1,
         note: "It’s rainy and a bit cold，所以室内上体育。",
       },
+      {
+        title: "超市购物",
+        passage: "Mum and I went to the supermarket after school. We bought apples, milk, and bread. Mum also asked for a small bottle of orange juice. At the checkout, I helped put the bags into the trolley. We walked home because the supermarket is only five minutes away.",
+        question: "他们为什么走路回家？",
+        options: ["因为下雨", "因为超市很近", "因为忘记带钱", "因为公交停运"],
+        answer: 1,
+        note: "the supermarket is only five minutes away。",
+      },
     ],
     speaking: [
       {
@@ -41,6 +49,11 @@ export const skillMaterials = {
         title: "说说你的爱好",
         prompt: "用 3 句话说明一个爱好、你多久做一次，以及你为什么喜欢它。",
         model: "My hobby is swimming. I usually swim on Saturday morning. I like it because it makes me feel happy and strong.",
+      },
+      {
+        title: "说说你的心情",
+        prompt: "用 3 句话说说今天的心情，并给出一个原因。",
+        model: "I feel happy today. I finished my homework early. I also played football with my friends after school.",
       },
     ],
     reading: [
@@ -60,6 +73,14 @@ export const skillMaterials = {
         answer: 1,
         note: "After lunch, Mia went to the library… read… and wrote three new words.",
       },
+      {
+        title: "Helping at Home",
+        passage: "Every Saturday morning, Ben helps his family at home. First, he makes his bed and puts his toys in a box. Then he waters the plants near the window. After that, he and his sister wash the fruit for lunch. Ben says helping at home makes the house tidy and makes him feel proud.",
+        question: "Ben 说帮忙做家务让他有什么感觉？",
+        options: ["无聊", "害怕", "自豪", "生气"],
+        answer: 2,
+        note: "makes him feel proud。",
+      },
     ],
     writing: [
       {
@@ -75,6 +96,13 @@ export const skillMaterials = {
         minWords: 40,
         checklist: ["有问候", "提出时间和地点", "有结束语"],
         sample: "Hi Sam, are you free tomorrow afternoon? Let’s meet at the park at three. We can walk and practise English for thirty minutes. See you tomorrow!",
+      },
+      {
+        title: "写一段心情日记",
+        prompt: "用英语写 40–55 词：描述今天的心情，并说明一件让你有这种感觉的事。",
+        minWords: 40,
+        checklist: ["写出心情词", "说明一件具体事情", "有一句总结"],
+        sample: "Today I feel excited. I learned five new words and used them in short sentences. After dinner I read a story with my sister. It was a happy day for me.",
       },
     ],
   },
@@ -104,6 +132,14 @@ export const skillMaterials = {
         answer: 1,
         note: "about seven minutes on foot。",
       },
+      {
+        title: "健康小贴士",
+        passage: "If you have a cough or a mild fever, stay home and rest. Drink warm water and take medicine only as directed. Light exercise can help when you feel better, but don’t push yourself too hard. If symptoms last more than three days, make an appointment with a doctor.",
+        question: "症状持续超过三天时应该做什么？",
+        options: ["立刻剧烈运动", "预约看医生", "停止喝水", "忽略所有症状"],
+        answer: 1,
+        note: "make an appointment with a doctor。",
+      },
     ],
     speaking: [
       {
@@ -120,6 +156,11 @@ export const skillMaterials = {
         title: "礼貌请求帮助",
         prompt: "录制 30–45 秒：你在商店想换一件衣服，礼貌说明问题并请求帮助。",
         model: "Excuse me, I bought this shirt yesterday, but it doesn’t fit. Could I exchange it for a larger size, please? I still have the receipt.",
+      },
+      {
+        title: "推荐一个地方",
+        prompt: "用 4 句话推荐图书馆、公园或博物馆：它在哪里、适合做什么、为什么值得去。",
+        model: "I recommend the city library near the park. It is quiet and has free Wi-Fi. You can read, review vocabulary, and meet friends there. I go every Saturday afternoon.",
       },
     ],
     reading: [
@@ -139,6 +180,14 @@ export const skillMaterials = {
         answer: 1,
         note: "he used the extra fifteen minutes to review five phrases。",
       },
+      {
+        title: "Screen Time Rules",
+        passage: "Lina’s family made a simple screen-time plan. After homework, she can use her tablet for thirty minutes. Before bed, phones stay in the kitchen so everyone sleeps better. On weekends, the family goes to the museum or the beach instead of watching videos all day. Lina says the rules felt strict at first, but now she feels healthier and less tired.",
+        question: "Lina 的家庭周末更倾向做什么？",
+        options: ["整天看视频", "去博物馆或海滩", "取消所有作业", "增加夜间刷手机"],
+        answer: 1,
+        note: "goes to the museum or the beach instead of watching videos。",
+      },
     ],
     writing: [
       {
@@ -154,6 +203,13 @@ export const skillMaterials = {
         minWords: 60,
         checklist: ["说明购买时间或商品", "清楚描述问题", "提出退款或换货请求"],
         sample: "Excuse me, I bought this jacket yesterday, but there is a small hole near the pocket. I still have the receipt. Could I get a refund, or exchange it for another jacket in the same size? Thank you for your help.",
+      },
+      {
+        title: "写一段健康建议",
+        prompt: "用英语写 60–75 词：给同学三条保持健康的建议，并解释其中一条。",
+        minWords: 60,
+        checklist: ["至少三条建议", "解释一条原因", "语气友好"],
+        sample: "To stay healthy, sleep enough, drink water, and do light exercise every day. I especially recommend a short walk after dinner because it helps you relax and focus better the next morning. Small habits are easier to keep than big sudden changes.",
       },
     ],
   },
@@ -183,6 +239,14 @@ export const skillMaterials = {
         answer: 1,
         note: "check whether your insurance covers medical costs and delayed luggage。",
       },
+      {
+        title: "隐私与更新",
+        passage: "Before you download a new learning app, check its privacy settings and update history. Turn off unnecessary notifications so they do not become a distraction. Allocate a short daily block for practice, then close the app when the timer ends. A pragmatic routine with clear limits is easier to sustain than long unfocused sessions.",
+        question: "材料建议下载新应用前先检查什么？",
+        options: ["仅检查图标颜色", "隐私设置与更新记录", "只看广告评分", "取消所有下载"],
+        answer: 1,
+        note: "check its privacy settings and update history。",
+      },
     ],
     speaking: [
       {
@@ -199,6 +263,11 @@ export const skillMaterials = {
         title: "总结一段经历",
         prompt: "用 45 秒总结一次旅行或学习经历：主旨一句、细节两句、收获一句。",
         model: "Last year I joined a short English camp. We practised every morning and gave a presentation on the final day. I felt nervous at first, but clear feedback helped me improve.",
+      },
+      {
+        title: "反驳并折中",
+        prompt: "录制 45–60 秒：有人说“每天刷题就够了”。先反驳一点，再提出一个更平衡的方案。",
+        model: "I disagree that drills alone are enough. They build accuracy, but without speaking and writing you can’t articulate ideas fluently. A better plan is short drills plus one output task each day.",
       },
     ],
     reading: [
@@ -218,6 +287,14 @@ export const skillMaterials = {
         answer: 1,
         note: "compare two or three options, list the main benefit and risk。",
       },
+      {
+        title: "Evaluating Conflicting Advice",
+        passage: "Online advice about language learning is often contradictory. One article may advocate long immersion sessions, while another implies that short spaced practice is better. A resilient learner evaluates claims against personal evidence: What improved fluency last month? What created only distraction? Instead of chasing every new tip, allocate time to methods that have already produced coherent progress, then sustain them long enough to judge results.",
+        question: "作者建议学习者如何对待相互矛盾的建议？",
+        options: ["全部照做", "立刻换方法", "用自己的证据评估并坚持有效方法", "只相信最长的文章"],
+        answer: 2,
+        note: "evaluates claims against personal evidence，并持续有效方法。",
+      },
     ],
     writing: [
       {
@@ -233,6 +310,13 @@ export const skillMaterials = {
         minWords: 90,
         checklist: ["比较两个选项", "明确推荐一个", "说明至少一个风险或让步"],
         sample: "We should compare the library and the café carefully. The library is quieter and more efficient for reading, while the café is more flexible for discussion. However, loud music may reduce focus. I recommend the library for the first hour, then a short café meeting if we need to talk. This plan keeps both concentration and collaboration.",
+      },
+      {
+        title: "写一段评估报告摘要",
+        prompt: "用英语写 90–120 词：评估“每天只背单词”的学习方案，给出结论和改进建议。",
+        minWords: 90,
+        checklist: ["评估至少一个优点和一个局限", "给出明确结论", "提出可执行改进"],
+        sample: "Memorising word lists can build recognition quickly, but it rarely develops fluency by itself. Learners may know meanings yet struggle to articulate ideas in speech or writing. A more pragmatic approach is to allocate part of each session to retrieval, example sentences, and short output tasks. Therefore, word lists should support practice, not replace it.",
       },
     ],
   },

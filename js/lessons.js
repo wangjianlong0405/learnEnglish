@@ -1,4 +1,4 @@
-import { courses, levelStandards, agePrograms, lessonChecks, lessonOutputTasks, getCoursePack, adultCourseUnits } from "../data/index.js";
+import { courses, levelStandards, agePrograms, lessonChecks, lessonOutputTasks, getCoursePack, adultCourseUnits, preschoolUnits } from "../data/index.js";
 import { state } from "./state.js";
 import { showToast, speak, speakSequence, bindSpeakable, speakable, voiceChip, stopSpeaking, looksChinese } from "./ui.js";
 import { showView } from "./router.js";
@@ -10,6 +10,7 @@ import { syncKidsModeUi } from "./kids-voice.js";
 import { renderWord } from "./word-review.js";
 import { escapeHtml } from "./utils.js";
 import { renderKidsCoursePath } from "./kids-units.js";
+import { renderPreschoolCoursePath } from "./preschool.js";
 
 /** In-progress multi-step lesson session. */
 const lessonSession = {
@@ -20,6 +21,10 @@ const lessonSession = {
 
 function isKidsMode() {
   return state.selectedAge === "kids";
+}
+
+function isPreschoolMode() {
+  return state.selectedAge === "preschool";
 }
 
 function zh(text) {
@@ -259,6 +264,7 @@ export function renderAgeProgram() {
   const program = agePrograms[state.selectedAge];
   const completedCount = program.modules.filter((module) => state.completedLessons.has(`${state.selectedAge}:${module.type}`)).length;
   const kids = isKidsMode();
+  const preschool = isPreschoolMode();
   document.querySelectorAll("[data-age]").forEach((button) => {
     const active = button.dataset.age === state.selectedAge;
     button.classList.toggle("is-active", active);
@@ -266,7 +272,41 @@ export function renderAgeProgram() {
   });
   document.querySelectorAll("[data-topic]").forEach((button) => button.classList.toggle("is-active", button.dataset.topic === state.selectedTopic));
   document.querySelector("#stage-level").textContent = program.level;
+  document.querySelector(".learning-toolbar").hidden = preschool;
   document.querySelector("#learning")?.classList.toggle("kids-voice-mode", kids);
+  document.querySelector("#learning")?.classList.toggle("preschool-mode", preschool);
+
+  if (preschool) {
+    const preschoolDone = preschoolUnits.filter((unit) => state.completedLessons.has(`preschool:${unit.id}`)).length;
+    document.querySelector("#stage-overview").innerHTML = `
+      <div class="preschool-stage-copy">
+        <button class="preschool-stage-sound" type="button" data-speak-preschool-stage aria-label="播放幼儿课程介绍">🔊</button>
+        <div><h2>${program.title}</h2><p>${program.description}</p></div>
+        <div class="preschool-stage-stats">
+          <span><strong>${program.pace[0]}</strong><small>${program.pace[1]}</small></span>
+          <span><strong data-completed-count>${preschoolDone}/${preschoolUnits.length}</strong><small>游戏完成</small></span>
+        </div>
+      </div>`;
+    document.querySelector("#learning-modules").innerHTML = "";
+    document.querySelector("#lesson-preview").classList.remove("is-visible");
+    document.querySelector("#lesson-preview").innerHTML = "";
+    renderKidsCoursePath(false);
+    renderPreschoolCoursePath(true);
+    document.querySelector("[data-speak-preschool-stage]")?.addEventListener("click", () => {
+      speakKidsParts([
+        zh("欢迎来到幼儿英语启蒙。"),
+        zh("不用认字。只要听声音，再点大图片。"),
+        zh(`这里有 ${preschoolUnits.length} 个听音游戏，请在下面选择一个。`),
+      ]);
+    });
+    setString(KEYS.age, state.selectedAge);
+    syncKidsModeUi();
+    updateDashboard();
+    syncAllTablists(document.querySelector("#learning"));
+    return;
+  }
+
+  renderPreschoolCoursePath(false);
 
   const voiceBar = kids ? `
     <div class="kids-voice-bar" id="kids-voice-bar">

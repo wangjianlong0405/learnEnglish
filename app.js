@@ -12,6 +12,7 @@ import { initPhoneticsChart } from "./js/phonetics-chart.js";
 import { initKidsVoice, speakAgeChoice, syncKidsModeUi } from "./js/kids-voice.js";
 import { registerServiceWorker } from "./js/pwa.js";
 import { initBackup } from "./js/backup.js";
+import { queuePreschoolOpen, recommendedPreschoolUnitId } from "./js/preschool.js";
 import { renderReviewBadge } from "./js/mistakes.js";
 import { initTablists } from "./js/tabs.js";
 
@@ -44,6 +45,13 @@ function runTodayFocus(kind = "lesson") {
     showToast("已定位到词汇复习");
     return;
   }
+  if (state.selectedAge === "preschool") {
+    queuePreschoolOpen(recommendedPreschoolUnitId());
+    showView("learning");
+    renderAgeProgram();
+    showToast("已打开今日推荐游戏");
+    return;
+  }
   showView("lessons");
   showToast("已为你定位到今天的课程");
 }
@@ -53,6 +61,13 @@ document.querySelectorAll("[data-today-focus]").forEach((button) => button.addEv
   runTodayFocus(button.dataset.focusKind || "lesson");
 }));
 document.querySelectorAll("[data-start-lesson]").forEach((button) => button.addEventListener("click", () => {
+  if (state.selectedAge === "preschool") {
+    queuePreschoolOpen(recommendedPreschoolUnitId());
+    showView("learning");
+    renderAgeProgram();
+    showToast("已打开今日推荐游戏");
+    return;
+  }
   showView("lessons");
   showToast("已为你定位到今天的课程");
 }));
@@ -72,7 +87,7 @@ document.querySelectorAll("[data-open-age]").forEach((button) => button.addEvent
   state.selectedAge = button.dataset.openAge;
   state.selectedTopic = "all";
   syncKidsModeUi();
-  if (state.selectedAge === "kids") await speakAgeChoice("kids");
+  if (state.selectedAge === "kids" || state.selectedAge === "preschool") await speakAgeChoice(state.selectedAge);
   renderAgeProgram();
   updateDashboard();
   showView("learning");

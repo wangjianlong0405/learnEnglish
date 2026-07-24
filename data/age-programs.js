@@ -1,4 +1,28 @@
 export const agePrograms = {
+  preschool: {
+    title: "幼儿英语启蒙",
+    level: "4–6 岁 · 听说启蒙",
+    description: "不用认字，跟着声音点图片。十五个主题分成身边世界、认识自己、每天生活三组；每组可「听声音点图片」或「看图片找声音」。",
+    pace: ["8 分钟", "每次建议"],
+    goal: ["90 个", "听说词图"],
+    modules: [
+      { type: "animals", icon: "🐱", label: "听音选图", title: "小动物", description: "听声音，找出小猫、小狗、小兔子、小鸟、小鱼和小鸭子。" },
+      { type: "colors", icon: "🎨", label: "听音选图", title: "魔法颜色", description: "认识 red、blue、yellow、green、orange、purple。" },
+      { type: "weather", icon: "☀️", label: "听音选图", title: "看看外面", description: "认识太阳、雨、云、风、雪和星星。" },
+      { type: "toys", icon: "🧸", label: "听音选图", title: "玩具盒", description: "找出娃娃、小汽车、积木、风筝、鼓和机器人。" },
+      { type: "transport", icon: "🚌", label: "听音选图", title: "出行工具", description: "听辨 car、bus、bike、train、plane、boat。" },
+      { type: "family", icon: "👨‍👩‍👧", label: "听音选图", title: "我的家人", description: "认识妈妈、爸爸、宝宝、姐姐、哥哥和奶奶。" },
+      { type: "body", icon: "🙌", label: "听音选图", title: "我的身体", description: "听辨 hand、head、eye、ear、nose、mouth。" },
+      { type: "actions", icon: "🏃", label: "听音选图", title: "我会动", description: "听动作词：run、jump、sing、play、walk、sleep。" },
+      { type: "clothes", icon: "👕", label: "听音选图", title: "穿衣出门", description: "找出帽子、鞋子、衬衫、书包、外套和袜子。" },
+      { type: "emotions", icon: "😊", label: "听音选图", title: "我的心情", description: "听辨 happy、sad、angry、sleepy、hungry、cold。" },
+      { type: "snacks", icon: "🍎", label: "听音选图", title: "好吃的食物", description: "听声音，找出苹果、香蕉、牛奶、蛋糕、面包和鸡蛋。" },
+      { type: "numbers", icon: "🔢", label: "听音选图", title: "一起数数", description: "听辨 one 到 six。" },
+      { type: "school", icon: "📚", label: "听音选图", title: "上学用品", description: "听辨 book、pencil、ball、bus、eraser、desk。" },
+      { type: "home", icon: "🏠", label: "听音选图", title: "在家里", description: "听辨 bed、door、window、table、lamp、sofa。" },
+      { type: "bath", icon: "🛁", label: "听音选图", title: "洗漱时间", description: "认识 water、soap、towel、brush、bath、wash。" },
+    ],
+  },
   kids: {
     title: "少儿英语启蒙",
     level: "Pre-A1 · 趣味启蒙",

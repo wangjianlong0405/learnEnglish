@@ -13,7 +13,7 @@ function en(text, rate = 0.7) {
 }
 
 export function isKidsMode() {
-  return state.selectedAge === "kids";
+  return state.selectedAge === "kids" || state.selectedAge === "preschool";
 }
 
 function kidsAutoEnabled() {
@@ -22,9 +22,14 @@ function kidsAutoEnabled() {
 
 export function syncKidsModeUi() {
   const kids = isKidsMode();
+  const preschool = state.selectedAge === "preschool";
   document.body.classList.toggle("is-kids-mode", kids);
+  document.body.classList.toggle("is-preschool-mode", preschool);
   document.querySelectorAll("[data-kids-only]").forEach((element) => {
     element.hidden = !kids;
+  });
+  document.querySelectorAll("[data-start-assessment]:not(#personal-path-action)").forEach((element) => {
+    element.hidden = preschool;
   });
   const coach = document.querySelector("#kids-home-coach");
   if (coach) coach.hidden = !kids;
@@ -72,9 +77,10 @@ export function speakHomePlan() {
 
 export function speakAndGoLearning() {
   stopSpeaking();
+  const destination = state.selectedAge === "preschool" ? "幼儿听音课堂" : "少儿课堂";
   return speakSequence([
-    zh("好的，我们去少儿课堂。"),
-    zh("点橙色喇叭，就能听到中文说明。"),
+    zh(`好的，我们去${destination}。`),
+    zh(state.selectedAge === "preschool" ? "点一张大图片，就可以开始。" : "点橙色喇叭，就能听到中文说明。"),
   ]).then(() => {
     showView("learning");
   });
@@ -104,6 +110,7 @@ export function speakTaskCard(kind) {
 
 export function speakAgeChoice(age) {
   const lines = {
+    preschool: [zh("幼儿启蒙。适合四到六岁，不用认字，只要听声音点图片。")],
     kids: [zh("少儿启蒙。适合六到九岁小朋友。里面有听一听功能。")],
     teens: [zh("青少年课程。")],
     exam: [zh("高中备考课程。")],
@@ -118,7 +125,9 @@ export function renderKidsHomeCoach() {
   const script = document.querySelector("#kids-home-script");
   const focus = getTodayFocus();
   if (script) {
-    script.textContent = `点大喇叭听安排。今天优先：${focus.title}。不会认字也没关系。`;
+    script.textContent = state.selectedAge === "preschool"
+      ? `点大喇叭听安排。今天玩：${focus.title}。不用认字。`
+      : `点大喇叭听安排。今天优先：${focus.title}。不会认字也没关系。`;
   }
 }
 
@@ -127,11 +136,18 @@ let homeWelcomed = false;
 export function maybeWelcomeKidsHome() {
   if (!isKidsMode() || !kidsAutoEnabled() || homeWelcomed) return;
   homeWelcomed = true;
-  speakSequence([
-    zh("小朋友你好，我是 Lingua。"),
-    zh("这里的字如果还不认识，就点橙色大喇叭，听我慢慢说。"),
-    zh("想上课的话，点听完去上课。"),
-  ]);
+  const lines = state.selectedAge === "preschool"
+    ? [
+      zh("小朋友你好，我是 Lingua。"),
+      zh("在这里不用认字，听声音，点大图片，就能学英语。"),
+      zh("想开始的话，点听完去上课。"),
+    ]
+    : [
+      zh("小朋友你好，我是 Lingua。"),
+      zh("这里的字如果还不认识，就点橙色大喇叭，听我慢慢说。"),
+      zh("想上课的话，点听完去上课。"),
+    ];
+  speakSequence(lines);
 }
 
 export function initKidsVoice() {

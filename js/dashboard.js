@@ -61,6 +61,16 @@ export function renderPersonalPath() {
   const description = document.querySelector("#personal-path-description");
   const steps = document.querySelector("#personal-path-steps");
   const action = document.querySelector("#personal-path-action");
+  if (state.selectedAge === "preschool") {
+    const program = agePrograms.preschool;
+    const incomplete = program.modules.filter((module) => !state.completedLessons.has(`preschool:${module.type}`));
+    const focus = (incomplete.length ? incomplete : program.modules).slice(0, 3);
+    title.textContent = "4–6 岁 · 听声音点图片";
+    description.textContent = "无需水平测试和文字作答，从听音点图游戏开始建立听说连接。";
+    steps.innerHTML = focus.map((module, index) => `<span>${index + 1}. ${module.title}</span>`).join("");
+    action.textContent = "进入幼儿课堂";
+    return;
+  }
   if (state.learnerLevel === "未测评") {
     title.textContent = "完成水平测试，生成你的学习路径";
     description.textContent = "系统会结合年龄阶段、英语等级和学习进度，推荐接下来最值得学习的内容。";
@@ -100,6 +110,21 @@ export function getTodayFocus() {
   const dueMistakes = countDueMistakes();
   const dueWords = countDueWords();
   const module = nextLessonModule();
+
+  if (state.selectedAge === "preschool") {
+    const incomplete = agePrograms.preschool.modules.find((module) => !state.completedLessons.has(`preschool:${module.type}`));
+    const module = incomplete || agePrograms.preschool.modules[0];
+    const allDone = !incomplete;
+    return {
+      kind: "lesson",
+      eyebrow: allDone ? "今日复习" : "今日游戏",
+      title: allDone ? "错词混合复习" : module.title,
+      description: allDone
+        ? "主题都玩过啦：优先复习容易点错的词，再混练一轮。"
+        : module.description,
+      cta: allDone ? "开始混合复习" : "开始听音游戏",
+    };
+  }
 
   if (state.learnerLevel === "未测评") {
     return {

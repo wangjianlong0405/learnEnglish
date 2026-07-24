@@ -3,6 +3,7 @@ export { courses, levelStandards, levelRecommendations } from "./curriculum.js";
 export { coursePacks, getCoursePack } from "./course-packs.js";
 export { agePrograms, lessonChecks, lessonOutputTasks } from "./age-programs.js";
 export { kidsCourseUnits, kidsUnitById } from "./kids-units.js";
+export { preschoolUnits, preschoolUnitById, preschoolGroupMeta, preschoolUnitsByGroup } from "./preschool-units.js";
 export { adultCourseUnits, adultUnitById } from "./adult-units.js";
 export { placementQuestions, recommendPlacementLevel } from "./assessment.js";
 export { skillMaterials, skillTierForLevel, skillItemList } from "./skills.js";

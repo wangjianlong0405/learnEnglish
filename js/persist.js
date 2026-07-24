@@ -16,6 +16,10 @@ export const KEYS = {
   grammarDone: "linguaGrammarDone",
   lastBackupAt: "linguaLastBackupAt",
   kidsVoiceAuto: "linguaKidsVoiceAuto",
+  preschoolParentHints: "linguaPreschoolParentHints",
+  preschoolWeakWords: "linguaPreschoolWeakWords",
+  preschoolStars: "linguaPreschoolStars",
+  preschoolCelebrations: "linguaPreschoolCelebrations",
 };
 
 const PREFIX = "lingua";

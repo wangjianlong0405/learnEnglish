@@ -44,8 +44,8 @@ test.describe("Lingua smoke", () => {
   test("kids theme unit runs through practice and saves completion", async ({ page }) => {
     await page.goto("/#learning");
     await expect(page.locator("#kids-course-path")).toBeVisible();
-    await expect(page.locator("[data-kids-unit]")).toHaveCount(9);
-    await expect(page.locator("#kids-course-release")).toHaveText("先行单元 9 / 12");
+    await expect(page.locator("[data-kids-unit]")).toHaveCount(12);
+    await expect(page.locator("#kids-course-release")).toHaveText("先行单元 12 / 12");
 
     await page.locator('[data-kids-unit="hello-friends"]').click();
     await expect(page.locator("#kids-unit-workspace")).toBeVisible();
@@ -76,6 +76,35 @@ test.describe("Lingua smoke", () => {
     await page.locator('[data-kids-unit="clothes-weather"]').click();
     await expect(page.locator("#kids-unit-workspace h2")).toContainText("Clothes & Weather");
     await expect(page.locator(".kids-unit-lesson")).toHaveCount(5);
+  });
+
+  test("preschool track can be completed by listening and tapping pictures", async ({ page }) => {
+    await page.goto("/#learning");
+    await page.locator('[data-age="preschool"]').click();
+
+    await expect(page.locator("#preschool-course-path")).toBeVisible();
+    await expect(page.locator(".preschool-unit-card")).toHaveCount(15);
+    await expect(page.locator(".learning-toolbar")).toBeHidden();
+
+    await page.locator('[data-view="home"]').click();
+    await expect(page.locator(".assessment-link")).toBeHidden();
+    await expect(page.locator(".profile-chip [data-start-assessment]")).toBeHidden();
+    await expect(page.locator("#personal-path-action")).toHaveText("进入幼儿课堂");
+    await page.locator("#personal-path-action").click();
+    await expect(page.locator("#preschool-course-path")).toBeVisible();
+
+    await page.locator('[data-preschool-unit="animals"]').click();
+    await expect(page.locator(".preschool-warmup button")).toHaveCount(6);
+    await page.locator('[data-preschool-mode="listen"]').click();
+    await expect(page.locator(".preschool-options button")).toHaveCount(3);
+
+    for (const [index, answer] of ["cat", "dog", "rabbit", "bird", "fish", "duck"].entries()) {
+      await page.locator(`[data-preschool-answer="${answer}"]`).click();
+      if (index < 5) await expect(page.locator(".preschool-game-progress span").nth(index + 1)).toHaveClass(/is-current/, { timeout: 2500 });
+    }
+
+    await expect(page.locator(".preschool-finish")).toBeVisible({ timeout: 3000 });
+    await expect.poll(() => page.evaluate(() => localStorage.getItem("linguaCompletedLessons"))).toContain("preschool:animals");
   });
 
   test("adult pathway provides four units and opens a real-task course", async ({ page }) => {

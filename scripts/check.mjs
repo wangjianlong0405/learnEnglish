@@ -22,6 +22,7 @@ import {
   phoneticMinimalPairs,
   phoneticById,
   kidsCourseUnits,
+  preschoolUnits,
   adultCourseUnits,
 } from "../data/index.js";
 
@@ -45,6 +46,7 @@ const appModules = [
   "js/phonetics-chart.js",
   "js/kids-voice.js",
   "js/kids-units.js",
+  "js/preschool.js",
   "js/output-tips.js",
   "js/persist.js",
   "js/quiz-runner.js",
@@ -72,6 +74,7 @@ const requiredFiles = [
   ".github/workflows/ci.yml",
   "data/index.js",
   "data/kids-units.js",
+  "data/preschool-units.js",
   "data/adult-units.js",
   ...appModules,
 ];
@@ -202,7 +205,7 @@ if (unitQuestionCount < 16) throw new Error(`Expected at least 16 unit-test ques
 
 if (placementQuestions.length < 12) throw new Error(`Expected at least 12 placement questions, found ${placementQuestions.length}`);
 
-if (words.length < 150) throw new Error(`Expected at least 150 vocabulary items, found ${words.length}`);
+if (words.length < 220) throw new Error(`Expected at least 220 vocabulary items, found ${words.length}`);
 for (const word of words) {
   if (!word.word || !word.level || !word.theme || !Array.isArray(word.tags) || !(word.level in LEVEL_RANK)) {
     throw new Error(`Vocabulary item missing level/theme/tags: ${word.word || "(unknown)"}`);
@@ -227,15 +230,15 @@ for (const level of ["Pre-A1", "A1", "A2", "B1", "B2"]) {
     }
   }
 }
-for (const age of Object.keys(agePrograms)) {
+for (const age of Object.keys(lessonChecks)) {
   for (const type of ["vocabulary", "phonetics", "grammar"]) {
     if (typeof lessonOutputTasks[age]?.[type] !== "string") {
       throw new Error(`lessonOutputTasks.${age}.${type} is missing`);
     }
   }
 }
-if (!Array.isArray(kidsCourseUnits) || kidsCourseUnits.length < 9) {
-  throw new Error("Expected at least nine structured kids course units");
+if (!Array.isArray(kidsCourseUnits) || kidsCourseUnits.length < 12) {
+  throw new Error(`Expected at least twelve structured kids course units, found ${kidsCourseUnits?.length ?? 0}`);
 }
 const kidsAnswerPositions = new Set();
 for (const unit of kidsCourseUnits) {
@@ -254,6 +257,20 @@ for (const unit of kidsCourseUnits) {
 }
 if (kidsAnswerPositions.size !== 4) {
   throw new Error("Kids unit correct answers must cover all four option positions");
+}
+if (!Array.isArray(preschoolUnits) || preschoolUnits.length < 15) {
+  throw new Error(`Expected at least fifteen preschool listening units, found ${preschoolUnits?.length ?? 0}`);
+}
+for (const unit of preschoolUnits) {
+  if (!unit.id || !unit.group || unit.items?.length < 6 || unit.questions?.length < 6) {
+    throw new Error(`Preschool unit is incomplete: ${unit.id || "(missing id)"}`);
+  }
+  const words = new Set(unit.items.map((item) => item.word));
+  for (const question of unit.questions) {
+    if (!words.has(question.answer) || !words.has(question.audio) || question.choices?.length !== 3 || question.choices.some((word) => !words.has(word))) {
+      throw new Error(`Preschool unit question is invalid: ${unit.id}`);
+    }
+  }
 }
 if (!Array.isArray(adultCourseUnits) || adultCourseUnits.length !== 4) {
   throw new Error("Expected four adult A1-A2 course units");
@@ -287,10 +304,10 @@ if (!skillMaterials.intermediate || skillTierForLevel("A2") !== "intermediate") 
 }
 for (const tier of ["foundation", "intermediate", "advanced"]) {
   const materials = skillMaterials[tier];
-  if (skillItemList(materials, "listening").length < 3) throw new Error(`${tier} listening needs at least 3 items`);
-  if (skillItemList(materials, "speaking").length < 3) throw new Error(`${tier} speaking needs at least 3 items`);
-  if (skillItemList(materials, "reading").length < 2) throw new Error(`${tier} reading needs at least 2 items`);
-  if (skillItemList(materials, "writing").length < 2) throw new Error(`${tier} writing needs at least 2 items`);
+  if (skillItemList(materials, "listening").length < 4) throw new Error(`${tier} listening needs at least 4 items`);
+  if (skillItemList(materials, "speaking").length < 4) throw new Error(`${tier} speaking needs at least 4 items`);
+  if (skillItemList(materials, "reading").length < 3) throw new Error(`${tier} reading needs at least 3 items`);
+  if (skillItemList(materials, "writing").length < 3) throw new Error(`${tier} writing needs at least 3 items`);
 }
 if (recommendPlacementLevel(0, 12) !== "Pre-A1" || recommendPlacementLevel(12, 12) !== "B2") {
   throw new Error("Placement level mapping is incorrect");
@@ -331,7 +348,7 @@ if (!swSource.includes("caches.open") || !appSource.includes("serviceWorker.regi
   throw new Error("PWA service worker registration is incomplete");
 }
 
-for (const asset of ["./data/phonetics.js", "./data/course-packs.js", "./data/kids-units.js", "./data/adult-units.js", "./js/phonetics-chart.js", "./js/kids-voice.js", "./js/kids-units.js", "./js/output-tips.js"]) {
+for (const asset of ["./data/phonetics.js", "./data/course-packs.js", "./data/kids-units.js", "./data/preschool-units.js", "./data/adult-units.js", "./js/phonetics-chart.js", "./js/kids-voice.js", "./js/kids-units.js", "./js/preschool.js", "./js/output-tips.js"]) {
   if (!swSource.includes(`"${asset}"`)) {
     throw new Error(`Service worker precache missing ${asset}`);
   }

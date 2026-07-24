@@ -19,7 +19,7 @@
     <title>Lingua — 每天进步一点点</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="site.webmanifest" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=9" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -141,6 +141,7 @@
               <p>从趣味启蒙到职场表达，选择你的阶段，学习词汇、音标和语法。</p>
             </div>
             <div class="age-preview-actions">
+              <button type="button" data-open-age="preschool"><strong>4–6</strong><span>幼儿启蒙</span></button>
               <button type="button" data-open-age="kids"><strong>6–9</strong><span>少儿启蒙</span><span class="kids-age-listen" data-kids-listen-age="kids" data-kids-only hidden>🔊</span></button>
               <button type="button" data-open-age="teens"><strong>10–14</strong><span>青少年</span></button>
               <button type="button" data-open-age="exam"><strong>15–18</strong><span>高中备考</span></button>
@@ -252,6 +253,7 @@
           </div>
 
           <div class="age-tabs" role="tablist" aria-label="选择年龄阶段">
+            <button type="button" role="tab" aria-selected="false" data-age="preschool"><span>🧸</span><strong>幼儿启蒙</strong><small>4–6 岁 · 无需识字</small></button>
             <button class="is-active" type="button" role="tab" aria-selected="true" data-age="kids"><span>🪁</span><strong>少儿启蒙</strong><small>6–9 岁</small></button>
             <button type="button" role="tab" aria-selected="false" data-age="teens"><span>🎒</span><strong>青少年</strong><small>10–14 岁</small></button>
             <button type="button" role="tab" aria-selected="false" data-age="exam"><span>📚</span><strong>高中备考</strong><small>15–18 岁</small></button>
@@ -272,6 +274,18 @@
           </div>
 
           <div class="stage-overview" id="stage-overview"></div>
+          <section class="preschool-course-path" id="preschool-course-path" aria-labelledby="preschool-course-title" hidden>
+            <header class="preschool-course-head">
+              <div>
+                <span class="section-number">LISTEN &amp; TAP</span>
+                <h2 id="preschool-course-title">听声音，点图片</h2>
+                <p>共 15 个主题，分三组。支持今日推荐、混合复习，以及「听声音点图片 / 看图片找声音」双玩法。</p>
+              </div>
+              <button class="preschool-guide-sound" type="button" data-preschool-guide aria-label="播放幼儿课堂说明">🔊</button>
+            </header>
+            <div class="preschool-unit-list" id="preschool-unit-list"></div>
+            <section class="preschool-workspace" id="preschool-workspace" aria-live="polite" hidden></section>
+          </section>
           <section class="kids-course-path" id="kids-course-path" aria-labelledby="kids-course-title" hidden>
             <header class="kids-course-path-header">
               <div>
@@ -279,7 +293,7 @@
                 <h2 id="kids-course-title">少儿主题单元课</h2>
                 <p>把故事、自然拼读和真实表达放在同一个学习任务里。</p>
               </div>
-              <span class="kids-course-release" id="kids-course-release">先行单元 9 / 12</span>
+              <span class="kids-course-release" id="kids-course-release">先行单元 12 / 12</span>
             </header>
             <div class="kids-unit-list" id="kids-unit-list"></div>
             <section class="kids-unit-workspace" id="kids-unit-workspace" aria-live="polite" hidden></section>
